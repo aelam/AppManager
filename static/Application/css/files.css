@@ -1,0 +1,93 @@
+.drop-zone
+{
+	width:90%;
+	border:1px gray solid;
+	border-radius:5px;
+	min-height:100px;
+	position:relative;
+}
+.drop-zone .caption
+{
+	position:absolute;
+	top:50%;
+	left:50%;
+	margin-left:-60px;
+	margin-top:-5px;
+}
+.drop-zone.dragover
+{
+	background-color:#ccc;
+}
+
+.file-list
+{
+	margin-top:20px;
+	width:90%;
+	padding:10px;
+	padding-top:0px;
+	min-height:200px;	
+}
+.file-list .b-file
+{
+	padding-bottom:10px;
+	padding-left:10px;
+	padding-top:10px;
+	border-bottom:1px solid #ccc;
+	position:relative;
+}
+.file-list .b-file .link
+{
+	min-width:200px;
+	display:inline-block;
+}
+
+.file-list .b-file:hover .del
+{
+	display:block;
+}
+
+.file-list .b-file .url
+{
+	display:inline-block;
+	margin-left:20px;
+	cursor:text;
+	
+}
+.file-list .b-file .loader
+{
+	display:inline-block;
+	position:relative;
+	top:3px;
+	width:150px;
+	height:12px;
+	margin-left:20px;
+	border-radius:5px;
+	border:1px solid rgb(79, 99, 99);
+	
+}
+.file-list .b-file .del
+{
+	background-image:url("/m/img/g_icons.png");
+	background-position:-125px 3px;
+	height:24px;
+	width:16px;
+	display:none;
+	cursor:pointer;
+	position:absolute;
+	right:10px;
+	top:3px;
+}
+.file-list .b-file .loader div
+{
+	height:12px;
+	width:0px;
+	background-image: -webkit-gradient(linear, 0% 100%, 0% 0%, 
+									   color-stop(0.1, rgb(54, 44, 54)), 
+									   color-stop(0.51, rgb(79, 99, 99))); 
+									   
+	background-image: -moz-linear-gradient(
+    center bottom,
+    rgb(54,44,54) 10%,
+    rgb(79,99,99) 51%
+	);
+}

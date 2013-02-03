@@ -1,0 +1,32 @@
+{%extends "base.html"%}
+
+{#{%set FILES_URL = MEDIA_URL+apps+"/"%}#}
+{%block head%}
+<link rel="stylesheet" href="{{ STATIC_URL }}Application/css/files.css" />
+<script type="text/javascript" src="{{ STATIC_URL }}Application/js/dragupload.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}Application/js/fileline.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}Application/js/filemanager.js"></script>
+
+<script type="text/javascript">
+var FILES_URL = '{{MEDIA_URL}}'+"apps/";
+	$(document).ready(function(){
+	 new FileManager();
+});
+</script>
+{%endblock%}
+
+{% block content %}
+	<div class="drop-zone"  id="dropZone">
+		<div class="caption">Drag file to here </div>
+	</div>
+	
+	<div class="file-list"  id="filesList">
+		{%for file in files%}
+			<div class='b-file'>
+							<div class='link'><a href="{{MEDIA_URL}}+'apps'+{{file}}">{{file}}</a></div>
+							<div contenteditable='true' class='url'>{{FILES_URL}}{{file}}</div>
+							<i class="del"></i>
+			</div>
+		{%endfor%}
+	</div>
+{% endblock %}

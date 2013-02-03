@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ STATIC_URL }}Application/css/app.css" type="text/css" charset="utf-8">
+{% endblock %}
+{% block title %}{{ app.app_name }} {% endblock %}
+
+{% block content %}
+
+
+
+    <div class="congrats">packages for <a href="/app/{{ app.id }}"> {{ app.app_name }}</a></div>
+
+    {%  for pack in packages  %}
+        <div class="step">
+            <table><tr>
+                <td height="50" class="instructions"><br /><label>{{ app.app_name }} {{ pack.version }}</label></td>
+                <td width="24" class="arrow">&rarr;</td>
+                <td width="57" class="imagelink">
+                    <a href="itms-services://?action=download-manifest&url={{ "http://ryan-server.local:8000/app/install/?pack_id="|urlencode:""}}{{ pack.id }}">Install</a>
+                </td>
+
+            </tr></table>
+        </div>
+
+
+    {% endfor %}
+
+{% endblock %}

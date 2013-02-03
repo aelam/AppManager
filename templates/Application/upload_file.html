@@ -1,0 +1,10 @@
+{%extends "base.html"%}
+
+{% block content %}
+
+<form method="POST" action="/app/upload/" enctype="multipart/form-data" name="form">  {% csrf_token %}
+    Select a file: <input type="file" name="filename" /><br>
+    <input type="submit" value="Upload">
+</form>
+
+{% endblock %}

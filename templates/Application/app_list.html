@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container-fluid">
+        			<div class="row-fluid">
+        			    {%  for app in apps  %}
+                            <dl class="well">
+                                {{ app.app_name }}
+        					    <dt><a href="/app/{{ app.id }}"> {{ app.app_name }}</a></dt>
+        					</dl>
+                        {% endfor %}
+                    </div>
+
+    </div>
+{% endblock %}
+
