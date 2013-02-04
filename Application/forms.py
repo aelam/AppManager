@@ -15,11 +15,14 @@ class PackageForm(ModelForm):
         model = Package
 
 class UpdatePackageForm(ModelForm):
-    id = forms.CharField(label="id",widget=forms.HiddenInput())
+    readonly_fields = ('id','ipa_path',)
+#    id = forms.CharField(label="id",widget=forms.HiddenInput())
+#    ipa_path = forms.FileField(widget=forms.HiddenInput())
+
     release_note = forms.Textarea()
     class Meta:
         model = Package
-        exclude = ('ipa_path','version','id')
+        exclude = ('ipa_path','version',"app")
 #        fields = ('release_note',id,)
 #        widgets = {
 #            'id':

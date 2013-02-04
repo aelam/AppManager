@@ -79,15 +79,28 @@ def package_upload(request):
             print(package.ipa_path)
             print('awesome upload success')
 
+        package.save()
+        print "package::::::::::::::::::::"
+        print(package.id)
         packageForm = UpdatePackageForm(instance=package)
+        packageForm.ipa_path = "HELLO"
 
         return render(request,"Application/upload_success.html",{"package":package,"form":packageForm}, context_instance=RequestContext(request))
 
 def package_update(request):
     if request.method == 'POST':
         package = Package(request.POST)
-        print(package.ipa_path)
+        print(package)
+        print("---------------------------------")
+        package.bundle_identifer = request.POST.get("bundle_identifer",None)
+        print(package)
+        print("package")
+        print("package.bundle_identifer")
+        print(package.bundle_identifer)
         print(package.id)
+        form = UpdatePackageForm(request.POST)
+#        pack = Package(form)
+#        print(pack)
         return render(request,"Application/upload_success.html", context_instance=RequestContext(request))
     else:
         return HttpResponse("FAIL")
