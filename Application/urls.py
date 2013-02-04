@@ -14,6 +14,7 @@ urlpatterns = patterns('Application.views',
     url(r'^package/$','package_list'),
     url(r'^package/(?P<id>\d+)/$','app_packages_list'),
     url(r"^install/","ota_plist"),
-    url(r"^upload/","upload"),
+    url(r"^upload/","package_upload"),
+    url(r'^package/save/$','package_update'),
 
 )

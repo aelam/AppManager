@@ -1,6 +1,12 @@
 {% extends "base.html" %}
 
 {% block content %}
+
+    <form method="POST" action="/app/upload/"  {% if form.is_multipart %}enctype="multipart/form-data"{% endif %} name="form">  {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Upload">
+    </form>
+
     <div class="container-fluid">
         			<div class="row-fluid">
         			    {%  for app in apps  %}

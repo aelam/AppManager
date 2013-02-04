@@ -1,4 +1,5 @@
-# Create your views here.
+#!/usr/bin/env python
+#coding=utf-8
 
 from django.http import HttpResponse
 from django.shortcuts import render
@@ -11,28 +12,31 @@ from django.conf import settings
 from django.template import RequestContext
 from django.core.context_processors import csrf
 
+from django.core.files.uploadedfile import InMemoryUploadedFile,TemporaryUploadedFile
 import os.path
 from django import http
 from django.http import HttpResponseRedirect, HttpResponse
+from forms import PackageForm,AppForm
 
-from Application.file_manager import FileManager
+from forms import *
 import uuid
 
 from ajax import sayhello
 
 def app_list(request):
     apps = App.objects.all()
-    return render(request,"Application/app_list.html",{'apps':apps})
+    upload_file_form = UploadFileForm()
+
+    return render(request,"Application/app_list.html",{'apps':apps, 'form':upload_file_form})
 
 def app_detail(request,app_id):
     print app_id
     app = App.objects.get(id = app_id)
     packages = Package.objects.filter(app_id = app_id)
-    print(app)
 
-#    ipa_url = settings.SERVER_URL+"/app/install"
+    upload_file_form = UploadFileForm()
 
-    return render(request,"Application/app_detail.html",{'app':app, "packages":packages})
+    return render(request,"Application/app_detail.html",{'app':app, "packages":packages,'form':upload_file_form})
 
 
 def app_packages_list(request,app_id):
@@ -57,18 +61,46 @@ def get_version(request,app_id):
     return ""
 
 
-def upload(request):
+# handle file upload
+def package_upload(request):
     if request.method == 'GET':
-        return render(request,"Application/upload_file.html")
+        upload_file_form = UploadFileForm()
+        return render(request,"Application/upload_file.html",{'form':upload_file_form})
     elif request.method == 'POST':
-        handle_uploaded_file(request.FILES.get("filename"))
-        return render(request,"Application/upload_file.html",context_instance=RequestContext(request))
+        upload_file_form = UploadFileForm(request.POST, request.FILES)
+        if upload_file_form.is_valid():
+            print("upload_file_form.is_valid")
+        print(request.FILES['file'])
+        file = request.FILES['file']
+        package = Package.handle(file)
+        if package is None:
+            print ":( failed"
+        else:
+            print(package.ipa_path)
+            print('awesome upload success')
+
+        packageForm = UpdatePackageForm(instance=package)
+
+        return render(request,"Application/upload_success.html",{"package":package,"form":packageForm}, context_instance=RequestContext(request))
+
+def package_update(request):
+    if request.method == 'POST':
+        package = Package(request.POST)
+        print(package.ipa_path)
+        print(package.id)
+        return render(request,"Application/upload_success.html", context_instance=RequestContext(request))
+    else:
+        return HttpResponse("FAIL")
 
 
 
 def handle_uploaded_file(f):
+    folder = os.path.join(settings.MEDIA_ROOT,"app")
+    if not os.path.exists(folder):
+        os.makedirs(folder)
+
     filename = str(uuid.uuid1()) + '.ipa'
-    path = os.path.join(settings.MEDIA_ROOT,"cache",filename)
+    path = os.path.join(folder,filename)
     print "path: %s " % path
     with open(path, 'wb+') as destination:
         for chunk in f.chunks():
