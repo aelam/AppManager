@@ -3,7 +3,7 @@
 
 __author__ = 'ryan'
 from django import forms
-from django.forms import ModelForm,Textarea
+from django.forms import ModelForm,Textarea,TextInput,FileInput
 from models import App,Comment,Package
 
 class UploadFileForm(forms.Form):
@@ -15,19 +15,18 @@ class PackageForm(ModelForm):
         model = Package
 
 class UpdatePackageForm(ModelForm):
-    readonly_fields = ('id','ipa_path',)
-#    id = forms.CharField(label="id",widget=forms.HiddenInput())
-#    ipa_path = forms.FileField(widget=forms.HiddenInput())
 
-    release_note = forms.Textarea()
     class Meta:
         model = Package
-        exclude = ('ipa_path','version',"app")
-#        fields = ('release_note',id,)
-#        widgets = {
-#            'id':
-#            'release_note': Textarea(attrs={'cols': 80, 'rows': 20}),
-#        }
+        exclude = ('version',"app")
+        widgets = {
+            'release_note': Textarea(attrs={'cols': 80, 'rows': 20}),
+            'bundle_identifer':TextInput(attrs={'readonly':True}),
+            'bundle_name':TextInput(attrs={'readonly':True}),
+            'bundle_version':TextInput(attrs={'readonly':True}),
+            'bundle_short_version':TextInput(attrs={'readonly':True}),
+
+        }
 
 
 
