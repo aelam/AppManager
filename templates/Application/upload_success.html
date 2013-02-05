@@ -3,10 +3,10 @@
 {% block content %}
     {{ message }}
 
-    ipa path : {{ package.ipa_path }} <br>
-    app:{{ package.app }} <br>
-    ver:{{ package.version }} <br>
-    path:{{ package.ipa_path }} <br>
+{#    ipa path : {{ package.ipa_path }} <br>#}
+{#    app:{{ package.app }} <br>#}
+{#    ver:{{ package.version }} <br>#}
+{#    path:{{ package.ipa_path }} <br>#}
 
     <form method="POST" action="/app/package/save/"  {% if form.is_multipart %}enctype="multipart/form-data"{% endif %} name="form">  {% csrf_token %}
          {{ form.as_p }}

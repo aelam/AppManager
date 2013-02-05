@@ -12,15 +12,15 @@ from django.conf import settings
 from django.template import RequestContext
 from django.core.context_processors import csrf
 
-from django.core.files.uploadedfile import InMemoryUploadedFile,TemporaryUploadedFile
 import os.path
 from django import http
 from django.http import HttpResponseRedirect, HttpResponse
 from forms import PackageForm,AppForm
 
 from forms import *
-import uuid
-
+import uuid,logging
+from django.contrib.sites.models import RequestSite
+from django.utils.http import urlencode
 from ajax import sayhello
 
 def app_list(request):
@@ -30,13 +30,19 @@ def app_list(request):
     return render(request,"Application/app_list.html",{'apps':apps, 'form':upload_file_form})
 
 def app_detail(request,app_id):
-    print app_id
+
     app = App.objects.get(id = app_id)
     packages = Package.objects.filter(app_id = app_id)
 
     upload_file_form = UploadFileForm()
 
-    return render(request,"Application/app_detail.html",{'app':app, "packages":packages,'form':upload_file_form})
+    site_name = RequestSite(request).domain
+    full_url = request.build_absolute_uri()
+    url_scheme = full_url.split("://")[0]
+    print(request.build_absolute_uri())
+    host = url_scheme +"://"+ site_name
+    print(host)
+    return render(request,"Application/app_detail.html",{"site_name":host,'app':app, "packages":packages,'form':upload_file_form})
 
 
 def app_packages_list(request,app_id):
@@ -54,12 +60,15 @@ def ota_plist(request):
     params = request.GET
     package_id = params.get("pack_id")
     package = Package.objects.get(id=package_id)
-    response = render(request,"Application/distribution.plist",content_type="text/xml")
+
+    site_name = RequestSite(request).domain
+    full_url = request.build_absolute_uri()
+    url_scheme = full_url.split("://")[0]
+    print(request.build_absolute_uri())
+    host = url_scheme +"://"+ site_name
+
+    response = render(request,"Application/distribution.plist",{'package':package,"host":host},content_type="text/xml")
     return response
-
-def get_version(request,app_id):
-    return ""
-
 
 # handle file upload
 def package_upload(request):
@@ -68,35 +77,34 @@ def package_upload(request):
         return render(request,"Application/upload_file.html",{'form':upload_file_form})
     elif request.method == 'POST':
         upload_file_form = UploadFileForm(request.POST, request.FILES)
-        if upload_file_form.is_valid():
-            print("upload_file_form.is_valid")
-        print(request.FILES['file'])
-        file = request.FILES['file']
-        package = Package.handle(file)
-        if package is None:
-            print ":( failed"
-        else:
-            print(package.ipa_path)
-            print('awesome upload success')
+        p = upload_file_form.save(commit=False)
 
-        package.save()
-        print "package::::::::::::::::::::"
-        print(package.id)
-        packageForm = UpdatePackageForm(instance=package)
-        packageForm.ipa_path = "HELLO"
+        p.parse_ipa()
+        print("pack:"+ p.bundle_name)
+        app = App.objects.get_or_create(app_identifier = p.bundle_identifier)[0]
+        print("r",app.id)
+        print("r",app.app_name)
+        print(type(app.app_name))
+        if app.app_name is None or len(app.app_name) == 0:
+            print("good condition")
+            app.app_name = p.bundle_name
+        app.save()
+        p.app = app
 
-        return render(request,"Application/upload_success.html",{"package":package,"form":packageForm}, context_instance=RequestContext(request))
-
+        p.save()
+        redirect = "/app/%d" % (app.id)
+        return HttpResponseRedirect(redirect)
+#
 def package_update(request):
     if request.method == 'POST':
         package = Package(request.POST)
         print(package)
         print("---------------------------------")
-        package.bundle_identifer = request.POST.get("bundle_identifer",None)
+        package.bundle_identifier = request.POST.get("bundle_identifer",None)
         print(package)
         print("package")
-        print("package.bundle_identifer")
-        print(package.bundle_identifer)
+        print("package.bundle_identifier")
+        print(package.bundle_identifier)
         print(package.id)
         form = UpdatePackageForm(request.POST)
 #        pack = Package(form)
@@ -121,22 +129,3 @@ def handle_uploaded_file(f):
         destination.close()
 
     return path
-
-#def upload(request):
-#    fm = FileManager(request.user.username)
-#    if request.method =="GET":
-#        return render_to_response("Application/files.html", {"username":request.user.username,
-#                                                 "files": fm.get_files()},
-#            context_instance = RequestContext(request))
-#
-#    if request.method =="POST":
-#        if "delete" in request.GET:
-#            filename = request.GET["delete"]
-#            fm.delete_file(filename)
-#            return HttpResponse(content = ('{"result":"ok"}'))
-#
-#
-#        filename = request.GET["file"]
-#        data = request.raw_post_data
-#        name = fm.save_file(filename, data)
-#        return HttpResponse(content = ('{"file":"%s"}' % name))

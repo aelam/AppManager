@@ -6,8 +6,12 @@ from django import forms
 from django.forms import ModelForm,Textarea,TextInput,FileInput
 from models import App,Comment,Package
 
-class UploadFileForm(forms.Form):
-    file  = forms.FileField()
+#class UploadFileForm(forms.Form):
+#    file  = forms.FileField()
+class UploadFileForm(ModelForm):
+    class Meta:
+        model = Package
+        exclude = ('version',"app","release_note","bundle_identifier","bundle_name","bundle_version","bundle_short_version","icon_path",)
 
 
 class PackageForm(ModelForm):
@@ -21,11 +25,10 @@ class UpdatePackageForm(ModelForm):
         exclude = ('version',"app")
         widgets = {
             'release_note': Textarea(attrs={'cols': 80, 'rows': 20}),
-            'bundle_identifer':TextInput(attrs={'readonly':True}),
+            'bundle_identifier':TextInput(attrs={'readonly':True}),
             'bundle_name':TextInput(attrs={'readonly':True}),
             'bundle_version':TextInput(attrs={'readonly':True}),
             'bundle_short_version':TextInput(attrs={'readonly':True}),
-
         }
 
 

@@ -64,3 +64,9 @@ class SimpleTest(TestCase):
                 print m.group()
             else:
                 print "None:" + i
+
+
+    def testList(self):
+        icons = ["1","2"]
+        print icons.count(0)
+

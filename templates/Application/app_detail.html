@@ -14,10 +14,10 @@
     {%  for pack in packages  %}
         <div class="step">
             <table><tr>
-                <td height="50" class="instructions"><br /><label>{{ app.app_name }} {{ pack.version }}</label></td>
+                <td height="50" class="instructions"><br /><label>{{ pack.bundle_name }} {{ pack.bundle_version }}  {{ pack.create_at }}</label></td>
                 <td width="24" class="arrow">&rarr;</td>
                 <td width="57" class="imagelink">
-                    <a href="itms-services://?action=download-manifest&url={{ "http://ryan-server.local:8000/app/install/?pack_id="|urlencode:""}}{{ pack.id }}">Install</a>
+                    <a href="itms-services://?action=download-manifest&url={{site_name|urlencode:""}}{{"/app/install/?pack_id="|urlencode:""}}{{ pack.id }}">Install</a>
                 </td>
 
             </tr></table>
