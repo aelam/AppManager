@@ -92,7 +92,7 @@ SECRET_KEY = '4d$zhthltdzqgb1*x)_pf(er&amp;kd9-6hblpdm*qvlmw$f!%e@-1'
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
-#     'django.template.loaders.eggs.Loader',
+    'django_mobile.loader.Loader',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -103,7 +103,14 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_mobile.middleware.MobileDetectionMiddleware',
+    'django_mobile.middleware.SetFlavourMiddleware',
 )
+
+# TEMPLATE_CONTEXT_PROCESSORS = (
+    # 'django_mobile.context_processors.flavour',
+    # 'django.contrib.auth.context_processors.auth',
+# )
 
 ROOT_URLCONF = 'InnerAppStore.urls'
 
@@ -127,6 +134,7 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
 #    'south',
 #    'south_admin',
+    'django_mobile',
     'Application',
 )
 

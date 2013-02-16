@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "base-mobile.html" %}
 
 {% block head %}
 <link rel="stylesheet" href="{{ STATIC_URL }}Application/css/app.css" type="text/css" charset="utf-8">
@@ -6,24 +6,51 @@
 {% block title %}{{ app.app_name }} {% endblock %}
 
 {% block content %}
+{#    {% block title %}#}
+{#        {{ app.app_name }}#}
+{#    {% endblock %}#}
+
+{#    <div class="congrats">packages for <a href="/app/{{ app.id }}"> {{ app.app_name }}</a></div>#}
+
+{#    {%  for pack in packages  %}#}
+{#        <div class="step">#}
+{#            <table><tr>#}
+{#                <td height="50" class="instructions"><br /><label>{{ pack.bundle_name }} {{ pack.bundle_version }}  {{ pack.create_at }}</label></td>#}
+{#                <td width="24" class="arrow">&rarr;</td>#}
+{#                <td width="57" class="itms-services">#}
+{#                    <a type="button" class="btn btn-primary" href="itms-services://?action=download-manifest&url={{site_name|urlencode:""}}{{"/app/install/?pack_id="|urlencode:""}}{{ pack.id }}">Install</a>#}
+{#                </td>#}
+{##}
+{#            </tr></table>#}
+{#        </div>#}
+{##}
+{##}
+{#    {% endfor %}#}
 
 
 
-    <div class="congrats">packages for <a href="/app/{{ app.id }}"> {{ app.app_name }}</a></div>
-
-    {%  for pack in packages  %}
-        <div class="step">
-            <table><tr>
-                <td height="50" class="instructions"><br /><label>{{ pack.bundle_name }} {{ pack.bundle_version }}  {{ pack.create_at }}</label></td>
-                <td width="24" class="arrow">&rarr;</td>
-                <td width="57" class="imagelink">
-                    <a href="itms-services://?action=download-manifest&url={{site_name|urlencode:""}}{{"/app/install/?pack_id="|urlencode:""}}{{ pack.id }}">Install</a>
-                </td>
-
-            </tr></table>
-        </div>
+{#    <br>#}
+{#    <br>#}
 
 
-    {% endfor %}
+    <div class="content-primary">
+        <ul data-role="listview">
+            {%  for pack in packages  %}
+                <li>
+{#                    {% with app.package_set.all|first as pack %}#}
+
+                        <a href="/app/{{ app.id }}">
+                            <img src="{{ MEDIA_URL }}{{ pack.big_icon_path }}" />
+
+                            <h3>{{ pack.bundle_name }}</h3>
+                            <p><strong>{{ pack.bundle_version }}</strong> ({{ pack.create_at }})</p>
+                            <a type="button" class="btn btn-primary" href="itms-services://?action=download-manifest&url={{host|urlencode:""}}{{"/app/install/?pack_id="|urlencode:""}}{{ pack.id }}">Install</a>
+                        </a>
+{#                    {% endwith %}#}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
 
 {% endblock %}

@@ -23,11 +23,22 @@ from django.contrib.sites.models import RequestSite
 from django.utils.http import urlencode
 from ajax import sayhello
 
+def get_host(request):
+    site_name = RequestSite(request).domain
+    full_url = request.build_absolute_uri()
+    url_scheme = full_url.split("://")[0]
+    print(request.build_absolute_uri())
+    host = url_scheme +"://"+ site_name
+    print(request.get_host())
+    return host
+
 def app_list(request):
     apps = App.objects.all()
     upload_file_form = UploadFileForm()
 
-    return render(request,"Application/app_list.html",{'apps':apps, 'form':upload_file_form})
+    host = get_host(request)
+
+    return render(request,"Application/app_list.html",{'apps':apps,'host':host,'form':upload_file_form})
 
 def app_detail(request,app_id):
 
@@ -36,19 +47,15 @@ def app_detail(request,app_id):
 
     upload_file_form = UploadFileForm()
 
-    site_name = RequestSite(request).domain
-    full_url = request.build_absolute_uri()
-    url_scheme = full_url.split("://")[0]
-    print(request.build_absolute_uri())
-    host = url_scheme +"://"+ site_name
-    print(host)
-    return render(request,"Application/app_detail.html",{"site_name":host,'app':app, "packages":packages,'form':upload_file_form})
+    host = get_host(request)
+
+    return render(request,"Application/app_detail.html",{"host":host,'app':app, "packages":packages,'form':upload_file_form})
 
 
 def app_packages_list(request,app_id):
     packs = Package.objects.filter(app_id=app_id)
-    print(packs)
-    print type(packs)
+    # print(packs)
+    # print type(packs)
     return render(request,"Application/package_list.html",{'packs':packs})
 
 def package_list(request):
@@ -61,11 +68,7 @@ def ota_plist(request):
     package_id = params.get("pack_id")
     package = Package.objects.get(id=package_id)
 
-    site_name = RequestSite(request).domain
-    full_url = request.build_absolute_uri()
-    url_scheme = full_url.split("://")[0]
-    print(request.build_absolute_uri())
-    host = url_scheme +"://"+ site_name
+    host = get_host(request)
 
     response = render(request,"Application/distribution.plist",{'package':package,"host":host},content_type="text/xml")
     return response
@@ -76,9 +79,11 @@ def package_upload(request):
         upload_file_form = UploadFileForm()
         return render(request,"Application/upload_file.html",{'form':upload_file_form})
     elif request.method == 'POST':
-        upload_file_form = UploadFileForm(request.POST, request.FILES)
-        p = upload_file_form.save(commit=False)
+        # print(request)
 
+        upload_file_form = UploadFileForm(request.POST, request.FILES)
+
+        p = upload_file_form.save(commit=False)
         p.parse_ipa()
         print("pack:"+ p.bundle_name)
         app = App.objects.get_or_create(app_identifier = p.bundle_identifier)[0]
@@ -94,7 +99,7 @@ def package_upload(request):
         p.save()
         redirect = "/app/%d" % (app.id)
         return HttpResponseRedirect(redirect)
-#
+
 def package_update(request):
     if request.method == 'POST':
         package = Package(request.POST)

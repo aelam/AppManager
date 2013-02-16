@@ -1,22 +1,42 @@
-{% extends "base.html" %}
+{% extends "base-mobile.html" %}
+
+{% block extrahead %}
+    <link rel="stylesheet" href="{{STATIC_URL}}application/css/app.css" />
+
+{% endblock %}
 
 {% block content %}
 
+{#    <script > alert("HELLo");</script>#}
     <form method="POST" action="/app/upload/"  {% if form.is_multipart %}enctype="multipart/form-data"{% endif %} name="form">  {% csrf_token %}
         {{ form.as_p }}
         <input type="submit" value="Upload">
     </form>
 
-    <div class="container-fluid">
-        			<div class="row-fluid">
-        			    {%  for app in apps  %}
-                            <dl class="well">
-                                {{ app.app_name }}
-        					    <dt><a href="/app/{{ app.id }}"> {{ app.app_name }}</a></dt>
-        					</dl>
-                        {% endfor %}
-                    </div>
+    <br>
+    <br>
 
+
+    <div class="content-primary">
+        <ul data-role="listview">
+            {%  for app in apps  %}
+                <li>
+                    {% with app.package_set.all|first as pack %}
+
+                    <a href="/app/{{ app.id }}">
+                        <img src="{{ MEDIA_URL }}{{ pack.big_icon_path }}" />
+
+                        <h3>{{ pack.bundle_name }}</h3>
+                        <p><strong>{{ pack.bundle_short_version }}</strong></p>
+                        <p>Build Version <strong>{{ pack.bundle_version }}</strong> ({{ pack.create_at }})</p>
+                        <a type="button" class="btn btn-primary" href="itms-services://?action=download-manifest&url={{host|urlencode:""}}{{"/app/install/?pack_id="|urlencode:""}}{{ pack.id }}">Install</a>
+                    </a>
+                    {% endwith %}
+                </li>
+            {% endfor %}
+        </ul>
     </div>
+
+
 {% endblock %}
 
