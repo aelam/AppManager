@@ -11,6 +11,7 @@ from django.shortcuts import render_to_response
 from django.conf import settings
 from django.template import RequestContext
 from django.core.context_processors import csrf
+from django.contrib.auth.decorators import login_required
 
 import os.path
 from django import http
@@ -31,6 +32,7 @@ def get_host(request):
     print(request.get_host())
     return host
 
+@login_required
 def app_list(request):
     apps = App.objects.all()
     upload_file_form = UploadFileForm()
@@ -39,6 +41,7 @@ def app_list(request):
 
     return render(request,"Application/app_list.html",{'apps':apps,'host':host,'form':upload_file_form})
 
+@login_required
 def app_detail(request,app_id):
 
     app = App.objects.get(id = app_id)
@@ -57,6 +60,7 @@ def app_detail(request,app_id):
 #     packs = Package.objects.all() #(app_id=app_id)
 #     return render(request,"Application/package_list.html",{'packs':packs})
 #
+@login_required
 def app_packages_list(request,app_id):
     packs = Package.objects.filter(app_id=app_id)
     # print(packs)

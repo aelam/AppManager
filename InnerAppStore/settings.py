@@ -148,7 +148,7 @@ INSTALLED_APPS = (
 )
 
 #jqm
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/app'
 
 
 TASK_UPLOAD_FILE_TYPES = ['ipa', 'vnd.oasis.opendocument.text',]

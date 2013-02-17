@@ -25,9 +25,16 @@
 <div data-role="page">
 
     <div data-role="header">
-        <a href="/app" data-icon="gear" class="ui-btn-left">Apps</a>
-        <span class="ui-title" />
 
+        <a href="/app" data-icon="gear" class="ui-btn-left">Apps</a>
+
+
+        {% if user.is_authenticated %}
+            <a href="{% url logout %}" data-icon="gear" class="ui-btn-right"> {{user}}|Logout</a>
+        {% else %}
+            <a href="{% url logout %}" data-icon="delete" class="ui-btn-right">Login</a>
+        {% endif %}
+        <span class="ui-title" />
         {% block title %}InnerAppStore{% endblock %}
 
     </div><!-- /header -->
