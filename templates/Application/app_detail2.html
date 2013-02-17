@@ -1,0 +1,48 @@
+{% extends "base-mobile.html" %}
+
+{% block title %}{{ app.app_name }} {% endblock %}
+
+{% block content %}
+
+    {% with app.package_set.all|first as pack %}
+
+        <div class="content-primary">
+        <ul data-role="listview">
+{#            {%  for pack in packages  %}#}
+                <li>
+                        <a href="/app/{{ app.id }}">
+                            <img class="rounded_icon" src="{{ MEDIA_URL }}{{ pack.big_icon_path }}" width="70" height="70" style="margin-top: 10px;margin-left:10px" />
+
+                            <h3>{{ pack.bundle_name }}</h3>
+                            <p><strong>{{ pack.bundle_version }}</strong> ({{ pack.create_at }})</p>
+                            <a type="button" class="install_button" href="itms-services://?action=download-manifest&url={{host|urlencode:""}}{{"/app/install/?pack_id="|urlencode:""}}{{ pack.id }}">Install</a>
+                        </a>
+                </li>
+{#            {% endfor %}#}
+        </ul>
+    </div>
+    <br/>
+    <br/>
+
+    <div class="content-secondary">
+        <div data-role="navbar">
+            <ul>
+                <li><a onclick="Dajaxice.Application.sayhello(app_detail_cb)" class="ui-btn-active ui-state-persist">Detail</a></li>
+                <li><a onclick="Dajaxice.Application.sayhello(app_detail_cb)" class="ui-btn-active ui-state-persist">Detail</a></li>
+                <li><a onclick="Dajaxice.Application.app_previous_versions(app_previous_versions_cb)">Previous Versions</a></li>
+            </ul>
+        </div><!-- /navbar -->
+
+        <br/>
+        <br/>
+        <p>App Name {{ pack.bundle_name }}</p>
+        <p>Create at {{ pack.create_at }}</p>
+        {#  TODO `Size` `Device Family`  `Minimum OS`  `Expires`    #}
+
+    </div>
+
+
+
+    {% endwith %}
+
+{% endblock %}

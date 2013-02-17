@@ -49,7 +49,8 @@ def app_detail(request,app_id):
 
     host = get_host(request)
 
-    return render(request,"Application/app_detail.html",{"host":host,'app':app, "packages":packages,'form':upload_file_form})
+    # return render(request,"Application/app_detail.html",{"host":host,'app':app, "packages":packages,'form':upload_file_form})
+    return render(request,"Application/app_detail2.html",{"host":host,'app':app, "packages":packages,'form':upload_file_form})
 
 # #显示全部
 # def package_list(request):

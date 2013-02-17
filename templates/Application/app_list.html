@@ -1,7 +1,6 @@
 {% extends "base-mobile.html" %}
 
 {% block extrahead %}
-    <link rel="stylesheet" href="{{STATIC_URL}}application/css/app.css" />
 
 {% endblock %}
 
@@ -24,7 +23,10 @@
                     {% with app.package_set.all|first as pack %}
 
                     <a href="/app/{{ app.id }}">
-                        <img class="rounded_icon" src="{{ MEDIA_URL }}{{ pack.big_icon_path }}" a="middle"/>
+                        <img class="rounded_icon lazy" src="{{ MEDIA_URL }}{{ pack.big_icon_path }}" a="middle"/>
+                        {# TODO Lazy loading image #}
+                        {# <img class="rounded_icon lazy" src="{{ STATIC_URL }}Application/img/archive.png" data-original="{{ MEDIA_URL }}{{ pack.big_icon_path }}" a="middle"/>#}
+
                         <h3>{{ pack.bundle_name }}</h3>
                         <p><strong>{{ pack.bundle_short_version }}</strong></p>
                         <p>Build Version <strong>{{ pack.bundle_version }}</strong> ({{ pack.create_at }})</p>
@@ -36,6 +38,7 @@
         </ul>
     </div>
 
+    <button onclick="Dajaxice.Application.sayhello(my_js_callback)">alert</button>
 
 {% endblock %}
 

@@ -74,7 +74,7 @@ STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    os.path.join(PROJECT_PATH,'inner_static'),
+    os.path.join(PROJECT_PATH,'static'),
 )
 
 # List of finder classes that know how to find static files in
@@ -83,6 +83,7 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+    'dajaxice.finders.DajaxiceFinder',
 )
 
 # Make this unique, and don't share it with anybody.
@@ -92,7 +93,9 @@ SECRET_KEY = '4d$zhthltdzqgb1*x)_pf(er&amp;kd9-6hblpdm*qvlmw$f!%e@-1'
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
-    'django_mobile.loader.Loader',
+    # 'django_mobile.loader.Loader',
+    'django.template.loaders.eggs.Loader',
+
 )
 
 MIDDLEWARE_CLASSES = (
@@ -101,16 +104,20 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    # Uncomment the next line for simple clickjacking protection:
-    # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_mobile.middleware.MobileDetectionMiddleware',
     'django_mobile.middleware.SetFlavourMiddleware',
 )
 
-# TEMPLATE_CONTEXT_PROCESSORS = (
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.contrib.auth.context_processors.auth',
+    'django.core.context_processors.debug',
+    'django.core.context_processors.i18n',
+    'django.core.context_processors.media',
+    'django.core.context_processors.static',
+    'django.core.context_processors.request',
+    'django.contrib.messages.context_processors.messages'
     # 'django_mobile.context_processors.flavour',
-    # 'django.contrib.auth.context_processors.auth',
-# )
+)
 
 ROOT_URLCONF = 'InnerAppStore.urls'
 
@@ -134,6 +141,8 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
 #    'south',
 #    'south_admin',
+    'dajaxice',
+    # 'dajax',
     'django_mobile',
     'Application',
 )
