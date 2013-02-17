@@ -21,7 +21,6 @@ from forms import *
 import uuid,logging
 from django.contrib.sites.models import RequestSite
 from django.utils.http import urlencode
-from ajax import sayhello
 
 def get_host(request):
     site_name = RequestSite(request).domain
@@ -79,14 +78,12 @@ def ota_plist(request):
 def package_upload(request):
     if request.method == 'GET':
         upload_file_form = UploadFileForm()
-#        return render(request,"Application/upload_file.html",{'form':upload_file_form})
-        return render(request,"Application/picture_form.html",{'form':upload_file_form})
+        return render(request,"Application/upload_file.html",{'form':upload_file_form})
     elif request.method == 'POST':
-        # print(request)
-
         upload_file_form = UploadFileForm(request.POST, request.FILES)
-
+        print(upload_file_form)
         p = upload_file_form.save(commit=False)
+        print(p)
         p.parse_ipa()
         print("pack:"+ p.bundle_name)
         app = App.objects.get_or_create(app_identifier = p.bundle_identifier)[0]

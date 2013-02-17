@@ -1,0 +1,40 @@
+.clear-both {
+    clear: both;
+}
+
+.jqm-messages {
+    list-style-type: none;
+}
+.jqm-messages .info, .jqm-messages .success {
+    color: black;
+    font-weight: normal;
+}
+.jqm-messages .warn {
+    color: blue;
+}
+.jqm-messages .error {
+    color: red;
+}
+
+.required label {
+    font-weight: bold;
+}
+.help-trigger {
+    vertical-align: baseline;
+}
+.field-wrapper {
+    padding-top: .25em;
+    padding-bottom: .25em;
+}
+.errorlist {
+    list-style-type: none;
+    color: #700000;
+    margin-top: 0;
+}
+
+/* collapse the logout button at smaller sizes */
+@media (max-width:400px) {
+    .logout-wide {
+        display: none;
+    }
+}

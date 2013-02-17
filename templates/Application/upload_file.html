@@ -1,8 +1,8 @@
-{%extends "base.html"%}
+{% extends "base-mobile.html" %}
 
 {% block content %}
 {{ message }}
-<form method="POST" action="/app/upload/" enctype="multipart/form-data" name="form">  {% csrf_token %}
+<form method="POST" action="/app/upload/" enctype="multipart/form-data" name="form"  data-ajax="false">  {% csrf_token %}
 {#    Select a file: <input type="file" name="filename" /><br>#}
     {{ form.as_p }}
     <input type="submit" value="Upload">

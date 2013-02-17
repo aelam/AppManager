@@ -11,6 +11,20 @@ from dajaxice.core import dajaxice_autodiscover, dajaxice_config
 dajaxice_autodiscover()
 
 urlpatterns = patterns('',
+    url(
+       r'^accounts/login/$','django.contrib.auth.views.login',
+       dict(
+           template_name = 'jqm/login.html',
+           ),
+       name='login',
+       ),
+    url(
+       r'^accounts/logout/$','django.contrib.auth.views.logout',
+       dict(
+           template_name = 'jqm/logout.html',
+           ),
+       name='logout',
+       ),
     url(r'^app/',include('Application.urls')),
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),

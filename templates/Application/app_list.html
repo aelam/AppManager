@@ -6,11 +6,15 @@
 
 {% block content %}
 
-{#    <script > alert("HELLo");</script>#}
-    <form method="POST" action="/app/upload/"  {% if form.is_multipart %}enctype="multipart/form-data"{% endif %} name="form">  {% csrf_token %}
+    <form method="POST" action="/app/upload/" enctype="multipart/form-data" name="form"  data-ajax="false">  {% csrf_token %}
         {{ form.as_p }}
         <input type="submit" value="Upload">
     </form>
+
+{#    <form method="POST" action="/app/upload/"  enctype="multipart/form-data" name="form" data-ajax=”false”>  {% csrf_token %}#}
+{#        {{ form.as_p }}#}
+{#        <input type="submit" value="Upload">#}
+{#    </form>#}
 
     <br>
     <br>
@@ -19,14 +23,12 @@
     <div class="content-primary">
         <ul data-role="listview">
             {%  for app in apps  %}
-                <li>
-                    {% with app.package_set.all|first as pack %}
-
+                {% with app.package_set.all|first as pack %}
+                    <li>
                     <a href="/app/{{ app.id }}">
-                        <img class="rounded_icon lazy" src="{{ MEDIA_URL }}{{ pack.big_icon_path }}" a="middle"/>
                         {# TODO Lazy loading image #}
                         {# <img class="rounded_icon lazy" src="{{ STATIC_URL }}Application/img/archive.png" data-original="{{ MEDIA_URL }}{{ pack.big_icon_path }}" a="middle"/>#}
-
+                        <img class="rounded_icon lazy" src="{{ MEDIA_URL }}{{ pack.big_icon_path }}" a="middle"/>
                         <h3>{{ pack.bundle_name }}</h3>
                         <p><strong>{{ pack.bundle_short_version }}</strong></p>
                         <p>Build Version <strong>{{ pack.bundle_version }}</strong> ({{ pack.create_at }})</p>
@@ -38,7 +40,8 @@
         </ul>
     </div>
 
-    <button onclick="Dajaxice.Application.sayhello(my_js_callback)">alert</button>
+    <button onclick="Dajaxice.Application.oldVersions(old_versions_cb)">alert</button>
+    <a data-role="button" href="{% url login %}">Log In</a>
 
 {% endblock %}
 

@@ -69,12 +69,14 @@ STATIC_ROOT = os.path.join(PROJECT_PATH,'static')
 # Example: "http://media.lawrence.com/static/"
 STATIC_URL = '/static/'
 
+ADMIN_MEDIA_PREFIX = '/static/admin'
+
 # Additional locations of static files
 STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    os.path.join(PROJECT_PATH,'static'),
+    os.path.join(PROJECT_PATH,'inner_static'),
 )
 
 # List of finder classes that know how to find static files in
@@ -125,7 +127,7 @@ ROOT_URLCONF = 'InnerAppStore.urls'
 WSGI_APPLICATION = 'InnerAppStore.wsgi.application'
 
 TEMPLATE_DIRS = (
-    os.path.join(PROJECT_PATH,'templates'),
+    os.path.join(PROJECT_PATH,'templates').replace('\\','/'),
 )
 
 INSTALLED_APPS = (
@@ -138,14 +140,16 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
-    # 'django.contrib.admindocs',
-#    'south',
-#    'south_admin',
+    'django.contrib.admindocs',
+    'jqm',
     'dajaxice',
-    # 'dajax',
     'django_mobile',
     'Application',
 )
+
+#jqm
+LOGIN_REDIRECT_URL = '/'
+
 
 TASK_UPLOAD_FILE_TYPES = ['ipa', 'vnd.oasis.opendocument.text',]
 

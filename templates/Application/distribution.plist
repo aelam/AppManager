@@ -27,7 +27,7 @@
 					<key>needs-shine</key>
 					<true/>
 					<key>url</key>
-					<string>{{host}}{{ MEDIA_URL}}{{package.icon_path}}</string>
+					<string>{{host}}{{ MEDIA_URL}}{{package.big_icon_path}}</string>
 				</dict>
 			</array>
 			<key>metadata</key>

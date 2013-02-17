@@ -9,16 +9,8 @@ var Dajaxice = {
     
     Application: {
     
-    app_previous_versions: function(callback_function, argv, custom_settings){
-        return Dajaxice.call('Application.app_previous_versions', 'POST', callback_function, argv, custom_settings);
-    },
-
-    sayhello: function(callback_function, argv, custom_settings){
-        return Dajaxice.call('Application.sayhello', 'POST', callback_function, argv, custom_settings);
-    },
-
-    app_detail: function(callback_function, argv, custom_settings){
-        return Dajaxice.call('Application.app_detail', 'POST', callback_function, argv, custom_settings);
+    oldPackages: function(callback_function, argv, custom_settings){
+        return Dajaxice.call('Application.oldPackages', 'POST', callback_function, argv, custom_settings);
     }
 
 

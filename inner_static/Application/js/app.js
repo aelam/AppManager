@@ -7,16 +7,17 @@
  */
 
 
-function my_js_callback(data){
-    alert(data.message);
-}
+//function my_js_callback(data){
+//    alert(data.message);
+//}
 
-function app_detail_cb(data) {
-    alert(data.message);
-}
+//function app_detail_cb(data) {
+//    alert(data.message);
+//}
 
+//$.mobile.ajaxFormsEnabled = false;
 
-function app_previous_versions_cb(data) {
+function old_packages_cb(data) {
     alert(data.message);
 }
 

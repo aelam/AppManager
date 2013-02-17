@@ -3,3 +3,6 @@ django-plist
 django_mobile
 dajaxice
 dajax
+django-registration
+django-html5
+django-jqm
