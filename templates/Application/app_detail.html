@@ -40,11 +40,11 @@
 {#                    {% with app.package_set.all|first as pack %}#}
 
                         <a href="/app/{{ app.id }}">
-                            <img src="{{ MEDIA_URL }}{{ pack.big_icon_path }}" />
+                            <img class="rounded_icon" src="{{ MEDIA_URL }}{{ pack.big_icon_path }}" width="70" height="70" style="margin-top: 10px;margin-left:10px" />
 
                             <h3>{{ pack.bundle_name }}</h3>
                             <p><strong>{{ pack.bundle_version }}</strong> ({{ pack.create_at }})</p>
-                            <a type="button" class="btn btn-primary" href="itms-services://?action=download-manifest&url={{host|urlencode:""}}{{"/app/install/?pack_id="|urlencode:""}}{{ pack.id }}">Install</a>
+                            <a type="button" class="install_button" href="itms-services://?action=download-manifest&url={{host|urlencode:""}}{{"/app/install/?pack_id="|urlencode:""}}{{ pack.id }}">Install</a>
                         </a>
 {#                    {% endwith %}#}
                 </li>

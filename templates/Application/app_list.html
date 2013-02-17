@@ -24,8 +24,7 @@
                     {% with app.package_set.all|first as pack %}
 
                     <a href="/app/{{ app.id }}">
-                        <img src="{{ MEDIA_URL }}{{ pack.big_icon_path }}" />
-
+                        <img class="rounded_icon" src="{{ MEDIA_URL }}{{ pack.big_icon_path }}" a="middle"/>
                         <h3>{{ pack.bundle_name }}</h3>
                         <p><strong>{{ pack.bundle_short_version }}</strong></p>
                         <p>Build Version <strong>{{ pack.bundle_version }}</strong> ({{ pack.create_at }})</p>

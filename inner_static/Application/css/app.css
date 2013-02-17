@@ -1,32 +1,11 @@
-body {
-    background: url(bkg.png) repeat #c5ccd4;
-    font-family: Helvetica, arial, sans-serif;
-}
-.congrats {
-    font-size: 16pt;
-    padding: 6px;
-    text-align: center;
-}
-.step {
-    background: white;
-    border: 1px #ccc solid;
-    border-radius: 14px;
-    padding: 4px 10px;
-    margin: 10px 0;
-}
-.instructions {
-    font-size: 10pt;
-}
-.arrow {
-    font-size: 15pt;
-}
-table {
-    width: 100%;
-}
 
-.my_icon_wrapper {
-    float: left;
-    width: 80px; height: 80px;
-    text-align: center;
-    vertical-align: middle;
+.rounded_icon {
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.65);
+    height: 65px;
+    width:  65px;
+    margin-top: 10px;
+    margin-left:10px
 }

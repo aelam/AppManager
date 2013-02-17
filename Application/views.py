@@ -51,17 +51,18 @@ def app_detail(request,app_id):
 
     return render(request,"Application/app_detail.html",{"host":host,'app':app, "packages":packages,'form':upload_file_form})
 
-
+# #显示全部
+# def package_list(request):
+#     print request.GET
+#     packs = Package.objects.all() #(app_id=app_id)
+#     return render(request,"Application/package_list.html",{'packs':packs})
+#
 def app_packages_list(request,app_id):
     packs = Package.objects.filter(app_id=app_id)
     # print(packs)
     # print type(packs)
     return render(request,"Application/package_list.html",{'packs':packs})
 
-def package_list(request):
-    print request.GET
-    packs = Package.objects.all() #(app_id=app_id)
-    return render(request,"Application/package_list.html",{'packs':packs})
 
 def ota_plist(request):
     params = request.GET
@@ -77,7 +78,8 @@ def ota_plist(request):
 def package_upload(request):
     if request.method == 'GET':
         upload_file_form = UploadFileForm()
-        return render(request,"Application/upload_file.html",{'form':upload_file_form})
+#        return render(request,"Application/upload_file.html",{'form':upload_file_form})
+        return render(request,"Application/picture_form.html",{'form':upload_file_form})
     elif request.method == 'POST':
         # print(request)
 
@@ -100,6 +102,34 @@ def package_upload(request):
         redirect = "/app/%d" % (app.id)
         return HttpResponseRedirect(redirect)
 
+# Test JQuery upload file
+def pack_upload2(request):
+    if  request.method == "GET":
+    # upload_file_form = UploadFileForm()
+        return render(request,"Application/picture_form.html")
+    elif request.method == 'POST':
+    # print(request)
+
+    # upload_file_form = UploadFileForm(request.POST, request.FILES)
+    #
+    # p = upload_file_form.save(commit=False)
+    # p.parse_ipa()
+    # print("pack:"+ p.bundle_name)
+    # app = App.objects.get_or_create(app_identifier = p.bundle_identifier)[0]
+    # print("r",app.id)
+    # print("r",app.app_name)
+    # print(type(app.app_name))
+    # if app.app_name is None or len(app.app_name) == 0:
+    #     print("good condition")
+    #     app.app_name = p.bundle_name
+    # app.save()
+    # p.app = app
+    #
+    # p.save()
+    # redirect = "/app/%d" % (app.id)
+    # return HttpResponseRedirect(redirect)
+        return HttpResponse("Good")
+
 def package_update(request):
     if request.method == 'POST':
         package = Package(request.POST)
@@ -118,19 +148,3 @@ def package_update(request):
     else:
         return HttpResponse("FAIL")
 
-
-
-def handle_uploaded_file(f):
-    folder = os.path.join(settings.MEDIA_ROOT,"app")
-    if not os.path.exists(folder):
-        os.makedirs(folder)
-
-    filename = str(uuid.uuid1()) + '.ipa'
-    path = os.path.join(folder,filename)
-    print "path: %s " % path
-    with open(path, 'wb+') as destination:
-        for chunk in f.chunks():
-            destination.write(chunk)
-        destination.close()
-
-    return path

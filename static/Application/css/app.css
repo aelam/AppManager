@@ -1,8 +1,22 @@
 
+.rounded_icon {
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.65);
+    height: 65px;
+    width:  65px;
+    margin-top: 10px;
+    margin-left:10px
+}
 
-.my_icon_wrapper {
-    float: left;
-    width: 80px; height: 80px;
-    text-align: center;
-    vertical-align: middle;
+.install_button {
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.65);
+    height: 65px;
+    width:  65px;
+    margin-top: 10px;
+    margin-left:10px
 }
