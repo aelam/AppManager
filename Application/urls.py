@@ -17,5 +17,7 @@ urlpatterns = patterns('Application.views',
     # url(r"^upload/","pack_upload2"),
     url(r'^package/save/$','package_update'),
     # url(r'^package/$','package_list'),
+    url(r'^provs/$','provisioning_profile_list'),
+    # url(r'^package/$','package_list'),
 
 )

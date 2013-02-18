@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
-from models import App,Comment,Package
+from models import App,Comment,Package,ProvisioningProfile
 #from coffin.shortcuts import render_to_response
 from django.shortcuts import render_to_response
 from django.conf import settings
@@ -22,6 +22,7 @@ from forms import *
 import uuid,logging
 from django.contrib.sites.models import RequestSite
 from django.utils.http import urlencode
+import biplist
 
 def get_host(request):
     site_name = RequestSite(request).domain
@@ -35,11 +36,12 @@ def get_host(request):
 # @login_required
 def app_list(request):
     apps = App.objects.all()
+    provs = ProvisioningProfile.objects.all()
     upload_file_form = UploadFileForm()
 
     host = get_host(request)
 
-    return render(request,"Application/app_list.html",{'apps':apps,'host':host,'form':upload_file_form})
+    return render(request,"Application/app_list.html",{'apps':apps,'provs':provs,'host':host,'form':upload_file_form})
 
 # @login_required
 def app_detail(request,app_id):
@@ -60,7 +62,7 @@ def app_detail(request,app_id):
 #     packs = Package.objects.all() #(app_id=app_id)
 #     return render(request,"Application/package_list.html",{'packs':packs})
 #
-@login_required
+# @login_required
 def app_packages_list(request,app_id):
     packs = Package.objects.filter(app_id=app_id)
     # print(packs)
@@ -150,3 +152,13 @@ def package_update(request):
     else:
         return HttpResponse("FAIL")
 
+
+
+def provisioning_profile_list(request):
+    provs = ProvisioningProfile.objects.all()[0]
+    print(provs)
+    plist = biplist.readPlist(provs.profile_path)
+    print(plist)
+
+
+    return HttpResponse("provisioning_profile_list")

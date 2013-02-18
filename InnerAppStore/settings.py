@@ -97,7 +97,7 @@ TEMPLATE_LOADERS = (
     'django.template.loaders.app_directories.Loader',
     # 'django_mobile.loader.Loader',
     'django.template.loaders.eggs.Loader',
-
+    'django_mobile.loader.Loader',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -106,6 +106,8 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'django_mobile.middleware.MobileDetectionMiddleware',
+    'django_mobile.middleware.SetFlavourMiddleware',
     'django_mobile.middleware.MobileDetectionMiddleware',
     'django_mobile.middleware.SetFlavourMiddleware',
 )
@@ -117,8 +119,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.media',
     'django.core.context_processors.static',
     'django.core.context_processors.request',
-    'django.contrib.messages.context_processors.messages'
-    # 'django_mobile.context_processors.flavour',
+    'django.contrib.messages.context_processors.messages',
+    'django_mobile.context_processors.flavour',
 )
 
 ROOT_URLCONF = 'InnerAppStore.urls'
@@ -145,6 +147,7 @@ INSTALLED_APPS = (
     'dajaxice',
     'django_mobile',
     'Application',
+    # 'south',
 )
 
 #jqm

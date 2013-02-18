@@ -25,15 +25,15 @@
             {%  for app in apps  %}
                 {% with app.package_set.all|first as pack %}
                     <li>
-                    <a href="/app/{{ app.id }}">
+                    <a href="/app/{{ app.id }}"  data-transition="slide">
                         {# TODO Lazy loading image #}
                         {# <img class="rounded_icon lazy" src="{{ STATIC_URL }}Application/img/archive.png" data-original="{{ MEDIA_URL }}{{ pack.big_icon_path }}" a="middle"/>#}
                         <img class="rounded_icon lazy" src="{{ MEDIA_URL }}{{ pack.big_icon_path }}" a="middle"/>
                         <h3>{{ pack.bundle_name }}</h3>
                         <p><strong>{{ pack.bundle_short_version }}</strong></p>
                         <p>Build Version <strong>{{ pack.bundle_version }}</strong> ({{ pack.create_at }})</p>
-{#                        <a type="button" href="itms-services://?action=download-manifest&url={{host|urlencode:""}}{{"/app/install/?pack_id="|urlencode:""}}{{ pack.id }}">Install</a>#}
-                        <span class="ui-li-count"><a href="#" data-role="none" data-theme="b">Button</a></span>
+                        <a type="button" href="itms-services://?action=download-manifest&url={{host|urlencode:""}}{{"/app/install/?pack_id="|urlencode:""}}{{ pack.id }}">Install</a>
+{#                        <span class="ui-li-count"><a href="#" data-role="none" data-theme="b">Button</a></span>#}
 {#                        <a href="/app" data-rel="dialog">Purchase item</a>#}
 
                         {#                        <a href= "#">#}
@@ -50,8 +50,18 @@
         </ul>
     </div>
 
-{#    <button onclick="Dajaxice.Application.oldVersions(old_versions_cb)">alert</button>#}
-{#    <a data-role="button" href="{% url login %}">Log In</a>#}
+    <div class="content-secondary">
+        <ul data-role="listview" data-split-icon="plus" data-theme="c">
+            {%  for prov in provs  %}
+                <li>
+{#                    Hello#}
+                    <a href="{{ STATIC_URL }}{{ prov.profile_path }}"> </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+
 
 {% endblock %}
 
