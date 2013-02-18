@@ -32,7 +32,7 @@ def get_host(request):
     print(request.get_host())
     return host
 
-@login_required
+# @login_required
 def app_list(request):
     apps = App.objects.all()
     upload_file_form = UploadFileForm()
@@ -41,7 +41,7 @@ def app_list(request):
 
     return render(request,"Application/app_list.html",{'apps':apps,'host':host,'form':upload_file_form})
 
-@login_required
+# @login_required
 def app_detail(request,app_id):
 
     app = App.objects.get(id = app_id)

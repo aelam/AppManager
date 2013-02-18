@@ -1,8 +1,7 @@
 biplist
 django-plist
 django_mobile
-dajaxice
-dajax
+django-dajax
 django-registration
 django-html5
 django-jqm

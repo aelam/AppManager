@@ -10,13 +10,26 @@
     margin-left:10px
 }
 
+.customTableLayout{
+    position:relative;
+    font-size: 12px;
+    height:200px;
+    display:block;
+}
+
 .install_button {
-    border-radius: 5px;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.65);
-    height: 65px;
-    width:  65px;
-    margin-top: 10px;
-    margin-left:10px
+    /*border-radius: 5px;*/
+    /*-moz-border-radius: 5px;*/
+    /*-webkit-border-radius: 5px;*/
+    /*box-shadow: 0 0 5px rgba(0, 0, 0, 0.65);*/
+    /*height: 65px;*/
+    /*width:  65px;*/
+    /*margin-top: 10px;*/
+    /*margin-left:10px;*/
+    'position': 'absolute',
+    'left': '200px',
+    'top': '50px',
+    'width': '50.0px',
+    'height': '38.0px',
+    'line-height': '38.0px'
 }
