@@ -53,9 +53,9 @@
 {#        <a href="index.html" data-role="button" data-icon="arrow-d">Down</a>#}
 {#    </div><!-- /footer -->#}
 
-{#    <div data-role="footer" data-position="fixed">#}
-{#        <h1>Fixed Footer!</h1>#}
-{#    </div>#}
+    <div data-role="footer" data-position="fixed">
+        <h1>{% if flavour == "mobile" %}(mobile version){% endif %}</h1>
+    </div>
 
 
 </div><!-- /page -->

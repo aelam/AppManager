@@ -5,19 +5,48 @@
 {% endblock %}
 
 {% block content %}
+    {% if flavour != "mobile" %}
+{#        <div>#}
+{#        <form method="POST" action="/app/upload/" enctype="multipart/form-data" name="form"  data-ajax="false">  {% csrf_token %}#}
+{#         {{ form.as_ul}}#}
+{#         <input type="submit" value="Upload">#}
+{#         </form>#}
+{#        </div>#}
 
-    <form method="POST" action="/app/upload/" enctype="multipart/form-data" name="form"  data-ajax="false">  {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Upload">
-    </form>
 
-{#    <form method="POST" action="/app/upload/"  enctype="multipart/form-data" name="form" data-ajax=”false”>  {% csrf_token %}#}
-{#        {{ form.as_p }}#}
-{#        <input type="submit" value="Upload">#}
-{#    </form>#}
+{#        <div class="content-form">#}
+{#            <form method="POST" action="/app/upload/" enctype="multipart/form-data" name="form"  data-ajax="false">  {% csrf_token %}#}
+{#            <ul data-role="listview" data-split-icon="plus" data-theme="c">#}
+{#                {%  for prov in form  %}#}
+{#                    <li>#}
+{#                        {{ field.errors }}#}
+{#                        {{ field.label_tag }}: {{ field }}#}
+{#                        <a href="{{ STATIC_URL }}{{ prov.profile_path }}"> </a>#}
+{#                    </li>#}
+{#                {% endfor %}#}
+{#            </ul>#}
+{#            </form>#}
+{#        </div>#}
+        <br/>
+        <form method="POST" action="/app/upload/" enctype="multipart/form-data" name="form" data-ajax="false"
+              xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html"
+              xmlns="http://www.w3.org/1999/html">  {% csrf_token %}
+         <ul data-role="listview" data-split-icon="plus" data-theme="a">
+             <li>
+             <p><strong>上传IPA</strong></p>
+             {% for field in form %}
+                    {{ field.errors }}
+                    {{ field.label_tag }}: {{ field }}
 
-    <br>
-    <br>
+            {% endfor %}
+             </li>
+         <p><input type="submit" value="上传文件" /></p>
+           </ul>
+        </form>
+        <br/>
+        <br/>
+    {% endif %}
+
 
 
     <div class="content-primary">
