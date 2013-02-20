@@ -19,5 +19,8 @@ urlpatterns = patterns('Application.views',
     # url(r'^package/$','package_list'),
     url(r'^provs/$','provisioning_profile_list'),
     # url(r'^package/$','package_list'),
-
 )
+
+# urlpatterns += patterns('Application.api',
+#     url(r'^api$', 'apps'),
+# )

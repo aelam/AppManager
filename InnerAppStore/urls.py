@@ -29,6 +29,8 @@ urlpatterns = patterns('',
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(dajaxice_config.dajaxice_url, include('dajaxice.urls')),
+
+    url(r'^api/', include('Application.api_urls')),
 )
 
 if settings.DEBUG:
