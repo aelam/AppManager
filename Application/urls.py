@@ -19,6 +19,7 @@ urlpatterns = patterns('Application.views',
     # url(r'^package/$','package_list'),
     url(r'^provs/$','provisioning_profile_list'),
     # url(r'^package/$','package_list'),
+    url(r"^appstore","appstore"),
 )
 
 # urlpatterns += patterns('Application.api',

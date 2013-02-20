@@ -1,0 +1,82 @@
+{% extends "base-mobile.html" %}
+
+{% block extrahead %}
+
+{% endblock %}
+
+
+{% block content %}
+
+    <script xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+    function get_applist(kind){
+{#        $.getJSON("/vote/",{pk:{{object.pk}},vote:kind},function(json){#}
+{#            alert("Was successful?: "+json['success']);#}
+{#        });#}
+
+        $.ajax({
+            url: "/api/app",
+{#            data: {#}
+{#                zipcode: 97201#}
+{#            },#}
+            success: function( data ) {
+{#                $( "#app_list" ).html( "<strong>" + data + "</strong> degrees" );#}
+{#                alert("Success");#}
+                for (var x = 0; x < data.length; x++) {
+{#                    alert(data[x]);#}
+                    pk = data[x].pk;
+                    app_name = data[x].fields.app_name;
+{##}
+{#                    alert(pk);#}
+                    content = "<li><a href=\"/app/" + pk +"\" data-transition=\"slide\" />"+ app_name +"</li>";
+
+{#                    alert(content);#}
+                    $("#app_list").append(content);
+
+                    $('ul').listview('refresh');
+{#                    $("app_list").append(content);#}
+                }
+            }
+        });
+
+    }
+
+    function addClickHandlers()
+    {
+        $("#upvote").click(function(){
+            alert("Hello");
+{#            vote("up")#}
+
+            $.mobile.changePage("/app/1", {
+                transition: "slide",
+                reloadPage: true
+            });
+        });
+
+        $("#downvote").click(function(){
+            vote("down")
+        });
+    }
+
+    $(document).ready(addClickHandlers);
+    $(document).ready(function() {
+{#        get_applist("up")#}
+
+
+    });
+    </script>
+
+
+    <div class="content-primary">
+        <ul data-role="listview" data-split-icon="plus" data-theme="a" id="app_list">
+{#           <li>#}
+{#            <a href="/app/1"  data-transition="slide">#}
+{#           </li>#}
+{#            <li><a href="/app/1" data-transition="slide" />1PasswordPro</li>#}
+        </ul>
+    </div>
+
+
+
+    <p> Do you <span type="button" id="upvote" title="Up">agree</span></p>
+
+{% endblock %}

@@ -33,6 +33,11 @@ def get_host(request):
     print(request.get_host())
     return host
 
+
+def appstore(request):
+    return render(request,"Application/appstore.html")
+
+
 # @login_required
 def app_list(request):
     apps = App.objects.all()
