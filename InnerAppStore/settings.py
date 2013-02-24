@@ -148,6 +148,7 @@ INSTALLED_APPS = (
     'django_mobile',
     'Application',
     # 'south',
+    'mdm',
 )
 
 #jqm

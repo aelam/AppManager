@@ -51,6 +51,7 @@
 
     <div class="content-primary">
         <ul data-role="listview" data-split-icon="plus" data-theme="c">
+            <li data-role="list-divider">Apps</li>
             {%  for app in apps  %}
                 {% with app.package_set.all|first as pack %}
                     <li>
@@ -62,32 +63,33 @@
                         <p><strong>{{ pack.bundle_short_version }}</strong></p>
                         <p>Build Version <strong>{{ pack.bundle_version }}</strong> ({{ pack.create_at }})</p>
                         <a type="button" href="itms-services://?action=download-manifest&url={{host|urlencode:""}}{{"/app/install/?pack_id="|urlencode:""}}{{ pack.id }}">Install</a>
-{#                        <span class="ui-li-count"><a href="#" data-role="none" data-theme="b">Button</a></span>#}
-{#                        <a href="/app" data-rel="dialog">Purchase item</a>#}
-
-                        {#                        <a href= "#">#}
-{#                            <div class="customTableLayout">#}
-{#                                <fieldset data-role="fieldcontain" id="install_button"><input type="button" id="install_button" name="Install" value="Install" /></fieldset>#}
-{#                            </div>#}
-{#                        </a>#}
                     </a>
                     {% endwith %}
                 </li>
-{#                <li data-role="list-divider">Fruits<span class="ui-li-count"><a href="#" data-role="none" data-theme="b">Button</a></span></li>#}
 
             {% endfor %}
+
+
+            <li data-role="list-divider">Provisioning Profiles</li>
+            {%  for prov in provs  %}
+                <li style="height:80;">
+                    <a href="/app/"  data-transition="slide" >Hello</a>
+                    <a href="{{ MEDIA_URL }}{{ prov.profile_path }}">Install Provisioning Profile </a>
+                </li>
+            {% endfor %}
+
         </ul>
     </div>
 
-    <div class="content-secondary">
-        <ul data-role="listview" data-split-icon="plus" data-theme="c">
-            {%  for prov in provs  %}
-                <li>
+{#    <div class="content-secondary">#}
+{#        <ul data-role="listview" data-split-icon="plus" data-theme="c">#}
+{#            {%  for prov in provs  %}#}
+{#                <li>#}
 {#                    Hello#}
-                    <a href="{{ STATIC_URL }}{{ prov.profile_path }}"> </a>
-                </li>
-            {% endfor %}
-        </ul>
+{#                    <a href="{{ STATIC_URL }}{{ prov.profile_path }}"> </a>#}
+{#                </li>#}
+{#            {% endfor %}#}
+{#        </ul>#}
     </div>
 
 

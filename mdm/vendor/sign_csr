@@ -1,0 +1,44 @@
+#!/usr/bin/env python
+
+import os
+import sys
+
+if __name__ == '__main__':
+    sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
+    from vendor import sign_csr
+    from optparse import OptionParser
+
+    parser = OptionParser(usage='usage: %prog -c <csr_path> -k <mdm_key_path> -p <mdm_key_passphrase> -m <mdm_cert_path> -r <root_cert_path> -i <intermediate_cert_path>')
+    parser.add_option('-c', '--csr', dest='csr_path', help='Path to the CSR in DER format')
+    parser.add_option('-k', '--key', dest='key_path', help='Path to the private key of the MDM Signing Cert')
+    parser.add_option('-p', '--passphrase', dest='passphrase', help='The passphrase to the MDM private key')
+    parser.add_option('-m', '--mdm', dest='mdm_path', help='Path to the MDM Signing Cert')
+    parser.add_option('-r', '--root-cert', dest='root_path', help='Path to the root certificate')
+    parser.add_option('-i', '--intermediate-cert', dest='intermediate_path', help='Path to the WWDR intermediate certificate')
+
+    options, args = parser.parse_args()
+
+    if None in options.__dict__.values():
+        parser.error('All options must be specified.')
+
+    dirname = os.getcwd()
+
+    try:
+        csr = open(options.csr_path).read()
+        key_path = options.key_path
+        mdm = open(options.mdm_path).read()
+        intermediate = open(options.intermediate_path).read()
+        root = open(options.root_path).read()
+    except IOError as e:
+        parser.error('Unable to read file at %s' % e.filename)
+    else:
+        raw, encoded = sign_csr(csr, options.key_path, options.passphrase, mdm, intermediate, root)
+
+        with open(os.path.join(dirname, 'out.plist'), 'wb') as plist:
+            plist.write(raw)
+
+        with open(os.path.join(dirname, 'encoded_plist.bin'), 'wb') as encoded_plist:
+            encoded_plist.write(encoded)
+
+        sys.stdout.write('Saved encoded plist file at %s\n' % os.path.join(dirname, 'encoded_plist.bin'))
+        sys.stdout.write('Saved normal (unencoded)plist file at %s\n' % os.path.join(dirname, 'out.plist'))
