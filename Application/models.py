@@ -6,8 +6,10 @@ from django.db import models
 from django.core.files.uploadedfile import TemporaryUploadedFile
 from zipfile import ZipFile
 from InnerAppStore import settings
-import re, os, tempfile, biplist, shutil, uuid, datetime
+import re, os, tempfile, biplist, shutil, uuid, datetime, plistlib
 
+PLIST_START_MARKER = '<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">'
+PLIST_END_MARKER = '</plist>'
 
 class ProvisioningProfile(models.Model):
     profile_path = models.FileField(upload_to="profiles")
@@ -20,6 +22,31 @@ class ProvisioningProfile(models.Model):
     expirationDate = models.DateTimeField(editable=False, null=True)
     UUID = models.CharField(max_length=100, editable=False, null=True)
 
+    PROFILE_TYPE_CHOICES = (
+        ("DEBUG", "debug"),
+        ("AD-HOC", "ad-hoc"),
+        ("APPSTORE", "appstore"),
+    )
+    profile_type = models.CharField(max_length=100, choices=PROFILE_TYPE_CHOICES, default="DEBUG")
+
+
+    def ProfileToPlist(profile_path):
+    # print(profile_path)
+        with open(profile_path, "rb") as provisioning_file:
+            file_contents = provisioning_file.read()
+
+        plist_start = file_contents.find(PLIST_START_MARKER)
+        plist_end = file_contents.find(PLIST_END_MARKER)
+        if plist_start < 0 or plist_end < 0:
+            return None
+
+        plist_end += len(PLIST_END_MARKER)
+
+        plist_dict = plistlib.readPlistFromString(file_contents[plist_start:plist_end])
+
+        # print(plist_dict)
+        print plist_dict["DeveloperCertificates"]
+        return plist_dict
 
 class App(models.Model):
     app_identifier = models.CharField(max_length=60, unique=True)
@@ -92,7 +119,7 @@ class Package(models.Model):
             icons = plist.get(r"CFBundleIconFiles", None)
             if icons:
                 icons__ = icons
-        print("====================")
+
         print(icons__)
         if len(icons__) > 0:
             print("icons__.count(0) > 0")
@@ -125,61 +152,6 @@ class Package(models.Model):
 
         return self.bundle_identifier
 
-    # @staticmethod
-    # def handle(ipa):
-    #     return None
-    #     ipa = ""
-    #     if ipa:
-    #         package = Package(ipa_path=ipa)
-    #         if type(ipa) == TemporaryUploadedFile:
-    #             temp = ipa.temporary_file_path()
-    #             if ipa.name.endswith(".ipa") or ipa.name.endswith(".zip"):
-    #                 print("good zipped file")
-    #             else:
-    #                 return None
-    #             zip = ZipFile(temp, 'r')
-    #             nameList = zip.namelist()
-    #             find info.plist
-                # valid = re.compile(r"^Payload\/[^\/]+.app\/Info.plist$", re.IGNORECASE)
-                # for name in nameList:
-                #     match = valid.match(name)
-                #     if match:
-                #         info_path = name
-                #         break
-                # unzip_ipa_dir = os.path.dirname(temp)
-                # real_info_path = zip.extract(info_path, unzip_ipa_dir)
-                #
-                # plist = biplist.readPlist(real_info_path)
-                #
-                # package.bundle_identifier = plist.get("CFBundleIdentifier", None)
-                # package.bundle_name = plist.get(r'CFBundleName', None)
-                # package.bundle_version = plist.get(r'CFBundleVersion', None)
-                # package.bundle_short_version = plist.get(r'CFBundleVersion', None)
-                #
-                # icons = plist.get(r'CFBundleIcons', None)
-                # if icons:
-                #     primaryIcon = icons.get(r"CFBundlePrimaryIcon", None)
-                #     icon_name_ = primaryIcon.get(r"CFBundleIconFiles", None)[0]
-                # else:
-                #     icon_name_ = plist.get(r"CFBundleIconFiles", None)[0]
-                #
-                # icon_path = os.path.join(os.path.dirname(info_path), icon_name_)
-                #
-                # unzip_icon_dir = os.path.dirname(real_info_path)
-                # unzip_icon_path = zip.extract(icon_path, unzip_icon_dir)
-                #
-                # icon_name = str(uuid.uuid4()) + ".png"
-                # dst_dir = os.path.join(settings.MEDIA_ROOT, "apps/icons")
-                # if not os.path.exists(dst_dir):
-                #     os.makedirs(dst_dir)
-                # dst_path = os.path.join(dst_dir, icon_name)
-                # shutil.copy2(unzip_icon_path, dst_path)
-                # package.icon_path = dst_path
-            # return package
-        # else:
-        #     return None
-
-
 # Create your models here.
 class Comment(models.Model):
     content = models.TextField()
@@ -190,3 +162,6 @@ class Comment(models.Model):
         return self.content
 
 
+class Device(models.Model):
+    device_id = models.CharField(max_length=100,unique=True)
+    nick = models.CharField(max_length=100,blank=True)

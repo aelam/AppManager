@@ -73,8 +73,9 @@
             <li data-role="list-divider">Provisioning Profiles</li>
             {%  for prov in provs  %}
                 <li style="height:80;">
-                    <a href="/app/"  data-transition="slide" >Hello</a>
-                    <a href="{{ MEDIA_URL }}{{ prov.profile_path }}">Install Provisioning Profile </a>
+                    <img class="rounded_icon" src="{{ STATIC_URL }}Application/img/prov.png">
+                    <a href="/app/"  data-transition="slide" ></a>
+                    <a href="{{ MEDIA_URL }}{{ prov.profile_path }}" data-ajax="false">Install Provisioning Profile </a>
                 </li>
             {% endfor %}
 
