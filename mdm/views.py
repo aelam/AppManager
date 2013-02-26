@@ -8,7 +8,17 @@ from mdm.models import Device, Topic
 
 @csrf_exempt
 def main(request):
-    return HttpResponse('mdm')
+
+
+    a = '''
+    <?xml version="1.0" encoding="UTF-8"?>
+    <!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+    <plist version="1.0">
+    <dict>
+    </dict>
+    </plist>
+    '''
+    return HttpResponse(a, content_type="application/xhtml+xml")
 
 @csrf_exempt
 def checkin(request):

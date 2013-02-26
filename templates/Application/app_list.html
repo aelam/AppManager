@@ -58,7 +58,12 @@
                     <a href="/app/{{ app.id }}"  data-transition="slide">
                         {# TODO Lazy loading image #}
                         {# <img class="rounded_icon lazy" src="{{ STATIC_URL }}Application/img/archive.png" data-original="{{ MEDIA_URL }}{{ pack.big_icon_path }}" a="middle"/>#}
-                        <img class="rounded_icon lazy" src="{{ MEDIA_URL }}{{ pack.big_icon_path }}" a="middle"/>
+                        {% if pack.big_icon_path  %}
+                            <img class="rounded_icon lazy" src="{{ MEDIA_URL }}{{ pack.big_icon_path }}" a="middle"/>
+                        {% else %}
+                            <img class="rounded_icon lazy" src="{{ STATIC_URL }}Application/img/archive.png" a="middle"/>
+                        {% endif %}
+{#                        <img class="rounded_icon lazy" src="{{ MEDIA_URL }}{{ pack.big_icon_path }}" a="middle"/>#}
                         <h3>{{ pack.bundle_name }}</h3>
                         <p><strong>{{ pack.bundle_short_version }}</strong></p>
                         <p>Build Version <strong>{{ pack.bundle_version }}</strong> ({{ pack.create_at }})</p>
@@ -81,6 +86,8 @@
 
         </ul>
     </div>
+
+    <a href="https://itunes.apple.com/cn/app/jin-ye-jiu-dian-te-jiapro/id566826099?mt=8&uo=4" target="itunes_store"><img src="http://r.mzstatic.com/images/web/linkmaker/badge_appstore-sm.gif" alt="今夜酒店特价Pro - 天朝开房办" style="border: 0;"/></a>
 
 {#    <div class="content-secondary">#}
 {#        <ul data-role="listview" data-split-icon="plus" data-theme="c">#}
