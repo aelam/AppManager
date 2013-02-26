@@ -11,6 +11,8 @@ import re, os, tempfile, biplist, shutil, uuid, datetime, plistlib
 PLIST_START_MARKER = '<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">'
 PLIST_END_MARKER = '</plist>'
 
+
+
 class ProvisioningProfile(models.Model):
     profile_path = models.FileField(upload_to="profiles")
 
@@ -165,3 +167,6 @@ class Comment(models.Model):
 class Device(models.Model):
     device_id = models.CharField(max_length=100,unique=True)
     nick = models.CharField(max_length=100,blank=True)
+
+
+#class Team(models.Model):
