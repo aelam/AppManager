@@ -3,6 +3,9 @@
 from django.conf.urls.defaults import url, patterns
 
 urlpatterns = patterns('mdm.views',
-    url(r'^/?$', 'main', name='mdm-main'),
-    url(r'^checkin/?$', 'checkin', name='mdm-checkin'),
+    url(r'^$', 'main', name='mdm-main'),
+    # url(r'^/checkin/?$', 'checkin', name='mdm-checkin'),
+    url(r'^checkin/$', 'checkin', name='mdm-checkin'),
+    url(r"^test/", "test"),
+    url(r"^ca/", "ca"),
 )

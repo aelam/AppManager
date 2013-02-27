@@ -6,21 +6,22 @@ from django.views.decorators.csrf import csrf_exempt
 
 from mdm.models import Device, Topic
 
-@csrf_exempt
+def ca(request):
+    # return HttpResponse("CA")
+    return render(request, "mdm/ca.pem", content_type="application/x-x509-ca-cert")
+
+# @csrf_exempt
 def main(request):
-
-
-    # a = '''
-    # <?xml version="1.0" encoding="UTF-8"?>
-    # <!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-    # <plist version="1.0">
-    # <dict>
-    # </dict>
-    # </plist>
-    # '''
-    response = render(request, "mdm/mdm.plist", content_type='application/x-apple-aspen-config')
-    # return HttpResponse(a, content_type="application/xhtml+xml")
-    return response
+    print(request.method)
+    if request.POST:
+        print(request)
+        print request['POST']
+        return HttpResponse("GOOD")
+    else:
+        # print(request)
+        response = render(request, "mdm/mdm.plist", content_type='application/x-apple-aspen-config')
+        # return HttpResponse(a, content_type="application/xhtml+xml")
+        return response
 
 @csrf_exempt
 def checkin(request):
@@ -32,6 +33,9 @@ def checkin(request):
     c) Checkout: he device is unenrolling from MDM.
 
     """
+    print("HELLO")
+    print(request.POST)
+    return HttpResponse(str(request.POST))
 
     plist = plistlib.readPlistFromString(request.raw_post_data)
     topic_name = plist.get('Topic')
@@ -57,3 +61,6 @@ def checkin(request):
             topic.devices.remove(device)
 
     return HttpResponse(plistlib.writePlistToString({}), mimetype='text/xml')
+
+def test(request):
+    return HttpResponse("REQUEST")
