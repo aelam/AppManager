@@ -1,7 +1,7 @@
 import plistlib
 
 from django.http import HttpResponse
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404,render
 from django.views.decorators.csrf import csrf_exempt
 
 from mdm.models import Device, Topic
@@ -10,15 +10,17 @@ from mdm.models import Device, Topic
 def main(request):
 
 
-    a = '''
-    <?xml version="1.0" encoding="UTF-8"?>
-    <!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-    <plist version="1.0">
-    <dict>
-    </dict>
-    </plist>
-    '''
-    return HttpResponse(a, content_type="application/xhtml+xml")
+    # a = '''
+    # <?xml version="1.0" encoding="UTF-8"?>
+    # <!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+    # <plist version="1.0">
+    # <dict>
+    # </dict>
+    # </plist>
+    # '''
+    response = render(request, "mdm/mdm.plist", content_type='application/x-apple-aspen-config')
+    # return HttpResponse(a, content_type="application/xhtml+xml")
+    return response
 
 @csrf_exempt
 def checkin(request):

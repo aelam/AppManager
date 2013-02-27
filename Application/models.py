@@ -7,6 +7,8 @@ from django.core.files.uploadedfile import TemporaryUploadedFile
 from zipfile import ZipFile
 from InnerAppStore import settings
 import re, os, tempfile, biplist, shutil, uuid, datetime, plistlib
+from django.contrib.auth.models import User
+
 
 PLIST_START_MARKER = '<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">'
 PLIST_END_MARKER = '</plist>'
@@ -169,4 +171,10 @@ class Device(models.Model):
     nick = models.CharField(max_length=100,blank=True)
 
 
-#class Team(models.Model):
+class Team(models.Model):
+    team_name = models.CharField(max_length=100)
+    team_token = models.CharField(max_length=100)
+    owner = models.ForeignKey(User)
+
+
+

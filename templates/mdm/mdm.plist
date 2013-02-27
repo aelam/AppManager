@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>PayloadContent</key>
+	<dict>
+		<key>URL</key>
+		<string>http://ryan-server.local:8000/mdm</string>
+		<key>DeviceAttributes</key>
+		<array>
+			<string>UDID</string>
+			<string>IMEI</string>
+			<string>ICCID</string>
+			<string>VERSION</string>
+			<string>PRODUCT</string>
+			<string>MODEL</string>
+			<string>DEVICE_NAME</string>
+		</array>
+		<key>Challenge</key>
+		<string>Tester Enrollment Challenge</string>
+	</dict>
+	<key>PayloadDisplayName</key>
+	<string>Ryan-MDM Access</string>
+	<key>PayloadOrganization</key>
+	<string>ryan-server.local</string>
+	<key>PayloadVersion</key>
+	<integer>1</integer>
+	<key>PayloadUUID</key>
+	<string>BA5456BB-9E2E-45F3-AFBE-C0378D0653C4</string>
+	<key>PayloadIdentifier</key>
+	<string>com.ryan.profileservice</string>
+	<key>PayloadDescription</key>
+	<string>Clicking install will install the TestFlight configuration profile to your iOS settings and link your device to your TestFlight account. At any point you can go to settings &gt; general &gt; profiles and remove the TestFlight profile.</string>
+	<key>PayloadType</key>
+	<string>Profile Service</string>
+</dict>
+</plist>
