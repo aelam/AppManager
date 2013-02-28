@@ -34,7 +34,7 @@ urlpatterns = patterns('',
     # url(r'^api/', include('Application.api_urls')),
 
     url(r'^mdm/', include("mdm.urls")),
-    # (r'^accounts/', include('registration.urls')),
+    (r'^scep/', include('scep.urls')),
 
     # url(r'^accounts/', include('django.contrib.auth.urls')),
     # url(r'^accounts/', include('registration.backends.default.urls')),

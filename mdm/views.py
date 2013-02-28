@@ -19,7 +19,8 @@ def main(request):
         return HttpResponse("GOOD")
     else:
         # print(request)
-        response = render(request, "mdm/mdm.plist", content_type='application/x-apple-aspen-config')
+        response = render(request, "cert/CA.mobileconfig",content_type='application/x-apple-aspen-config')
+        # response = render(request, "mdm/mdm.plist", content_type='application/x-apple-aspen-config')
         # return HttpResponse(a, content_type="application/xhtml+xml")
         return response
 
