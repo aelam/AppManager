@@ -11,14 +11,19 @@ import os
 CURRENT_PATH = os.path.dirname(__file__)
 PROJECT_PATH = os.path.dirname(CURRENT_PATH)
 
+print CURRENT_PATH
 MANAGERS = ADMINS
 
-SERVER_URL = "http://ryan-server.local:8000"
+if DEBUG:
+    SERVER_HOST = "ryan-server.local:8000"
+else:
+    SERVER_HOST = "ryan-server.local/appstore"
+
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'Content.db',                      # Or path to database file if using sqlite3.
+        'ENGINE': 'django.db.backends.sqlite3',  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME':  os.path.join(PROJECT_PATH, 'Content.db'),                      # Or path to database file if using sqlite3.
         'USER': '',                      # Not used with sqlite3.
         'PASSWORD': '',                  # Not used with sqlite3.
         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
@@ -51,19 +56,26 @@ USE_TZ = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
-MEDIA_ROOT = os.path.join(PROJECT_PATH,'media')
+if DEBUG:
+    MEDIA_ROOT = os.path.join(PROJECT_PATH, 'media')
+else:
+    MEDIA_ROOT = "/Users/ryan/Sites/media"
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
 # Examples: "http://media.lawrence.com/media/", "http://example.com/media/"
 MEDIA_URL = '/media/'
 
+
+
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/home/media/media.lawrence.com/static/"
-STATIC_ROOT = os.path.join(PROJECT_PATH,'static')
-
+if DEBUG:
+    STATIC_ROOT = os.path.join(PROJECT_PATH, 'static')
+else:
+    STATIC_ROOT = "/Users/ryan/Sites/static"
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
@@ -76,7 +88,7 @@ STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    os.path.join(PROJECT_PATH,'inner_static'),
+    os.path.join(PROJECT_PATH, 'inner_static'),
 )
 
 # List of finder classes that know how to find static files in
@@ -139,9 +151,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # Uncomment the next line to enable the admin:
     'django.contrib.admin',
-    # Uncomment the next line to enable admin documentation:
     'django.contrib.admindocs',
     'guardian',
     'jqm',
@@ -156,7 +166,7 @@ INSTALLED_APPS = (
 )
 
 #jqm
-LOGIN_REDIRECT_URL = '/app'
+LOGIN_REDIRECT_URL = '/appstore'
 
 AUTHENTICATION_BACKENDS = (
     'userena.backends.UserenaAuthenticationBackend',

@@ -37,7 +37,7 @@
 
     <div data-role="header"  data-position="fixed">
 
-        <a href="/app" data-icon="gear" class="ui-btn-left"  data-transition="slide" data-direction="reverse">Apps</a>
+        <a href="{% url main %}" data-icon="gear" class="ui-btn-left"  data-transition="slide" data-direction="reverse">Apps</a>
 
 
         {% if user.is_authenticated %}
@@ -45,8 +45,11 @@
         {% else %}
 {#            <a href="{% url logout %}" data-icon="delete" class="ui-btn-right">Login</a>#}
         {% endif %}
+
+        {% block header %}
+        {% endblock %}
         <span class="ui-title" />
-        {% block title %}InnerAppStore{% endblock %}
+{#        {% block title %}InnerAppStore{% endblock %}#}
 
     </div><!-- /header -->
 

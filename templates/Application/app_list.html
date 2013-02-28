@@ -5,30 +5,10 @@
 {% endblock %}
 
 {% block content %}
+
     {% if flavour != "mobile" %}
-{#        <div>#}
-{#        <form method="POST" action="/app/upload/" enctype="multipart/form-data" name="form"  data-ajax="false">  {% csrf_token %}#}
-{#         {{ form.as_ul}}#}
-{#         <input type="submit" value="Upload">#}
-{#         </form>#}
-{#        </div>#}
 
-
-{#        <div class="content-form">#}
-{#            <form method="POST" action="/app/upload/" enctype="multipart/form-data" name="form"  data-ajax="false">  {% csrf_token %}#}
-{#            <ul data-role="listview" data-split-icon="plus" data-theme="c">#}
-{#                {%  for prov in form  %}#}
-{#                    <li>#}
-{#                        {{ field.errors }}#}
-{#                        {{ field.label_tag }}: {{ field }}#}
-{#                        <a href="{{ STATIC_URL }}{{ prov.profile_path }}"> </a>#}
-{#                    </li>#}
-{#                {% endfor %}#}
-{#            </ul>#}
-{#            </form>#}
-{#        </div>#}
-        <br/>
-        <form method="POST" action="/app/upload/" enctype="multipart/form-data" name="form" data-ajax="false"
+        <form method="POST" action="{% url main %}upload/" enctype="multipart/form-data" name="form" data-ajax="false"
               xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html"
               xmlns="http://www.w3.org/1999/html">  {% csrf_token %}
          <ul data-role="listview" data-split-icon="plus" data-theme="a">
@@ -43,8 +23,8 @@
          <p><input type="submit" value="上传" /></p>
            </ul>
         </form>
-        <br/>
-        <br/>
+{#        <br/>#}
+{#        <br/>#}
     {% endif %}
 
 
@@ -55,7 +35,7 @@
             {%  for app in apps  %}
                 {% with app.package_set.all|first as pack %}
                     <li>
-                    <a href="/app/{{ app.id }}"  data-transition="slide">
+                    <a href="{% url apps %}{{ app.id }}"  data-transition="slide">
                         {# TODO Lazy loading image #}
                         {# <img class="rounded_icon lazy" src="{{ STATIC_URL }}Application/img/archive.png" data-original="{{ MEDIA_URL }}{{ pack.big_icon_path }}" a="middle"/>#}
                         {% if pack.big_icon_path  %}
@@ -63,11 +43,11 @@
                         {% else %}
                             <img class="rounded_icon lazy" src="{{ STATIC_URL }}Application/img/archive.png" a="middle"/>
                         {% endif %}
-{#                        <img class="rounded_icon lazy" src="{{ MEDIA_URL }}{{ pack.big_icon_path }}" a="middle"/>#}
                         <h3>{{ pack.bundle_name }}</h3>
                         <p><strong>{{ pack.bundle_short_version }}</strong></p>
                         <p>Build Version <strong>{{ pack.bundle_version }}</strong> ({{ pack.create_at }})</p>
-                        <a type="button" href="itms-services://?action=download-manifest&url={{host|urlencode:""}}{{"/app/install/?pack_id="|urlencode:""}}{{ pack.id }}">Install</a>
+                        {% url app-install as app_install %}
+                        <a type="button" href="itms-services://?action=download-manifest&url={{host|urlencode:""}}{{ app_install|urlencode:"" }}{{"?pack_id="|urlencode:""}}{{ pack.id }}">Install</a>
                     </a>
                     {% endwith %}
                 </li>
@@ -79,7 +59,7 @@
             {%  for prov in provs  %}
                 <li style="height:80;">
                     <img class="rounded_icon" src="{{ STATIC_URL }}Application/img/prov.png">
-                    <a href="/app/"  data-transition="slide" ></a>
+                    <a href="{% url main %}/app"  data-transition="slide" ></a>
                     <a href="{{ MEDIA_URL }}{{ prov.profile_path }}" data-ajax="false">Install Provisioning Profile </a>
                 </li>
             {% endfor %}
@@ -88,19 +68,6 @@
     </div>
 
     <a href="https://itunes.apple.com/cn/app/jin-ye-jiu-dian-te-jiapro/id566826099?mt=8&uo=4" target="itunes_store"><img src="http://r.mzstatic.com/images/web/linkmaker/badge_appstore-sm.gif" alt="今夜酒店特价Pro - 天朝开房办" style="border: 0;"/></a>
-
-{#    <div class="content-secondary">#}
-{#        <ul data-role="listview" data-split-icon="plus" data-theme="c">#}
-{#            {%  for prov in provs  %}#}
-{#                <li>#}
-{#                    Hello#}
-{#                    <a href="{{ STATIC_URL }}{{ prov.profile_path }}"> </a>#}
-{#                </li>#}
-{#            {% endfor %}#}
-{#        </ul>#}
-    </div>
-
-
 
 {% endblock %}
 

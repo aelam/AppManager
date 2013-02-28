@@ -6,7 +6,6 @@ from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from models import App,Comment,Package,ProvisioningProfile
-#from coffin.shortcuts import render_to_response
 from django.shortcuts import render_to_response
 from django.conf import settings
 from django.template import RequestContext
@@ -29,13 +28,13 @@ def get_host(request):
     full_url = request.build_absolute_uri()
     url_scheme = full_url.split("://")[0]
     print(request.build_absolute_uri())
-    host = url_scheme +"://"+ site_name
-    print(request.get_host())
+    host = url_scheme + "://" + site_name
+    # print(request.get_host())
     return host
 
 
 def appstore(request):
-    return render(request,"Application/appstore.html")
+    return render(request, "Application/appstore.html")
 
 
 # @login_required
@@ -45,11 +44,12 @@ def app_list(request):
     upload_file_form = UploadFileForm()
 
     host = get_host(request)
+    # host = request.get_host()
 
-    return render(request,"Application/app_list.html",{'apps':apps,'provs':provs,'host':host,'form':upload_file_form})
+    return render(request, "Application/app_list.html", {'apps': apps, 'provs': provs, 'host': host, 'form': upload_file_form})
 
 # @login_required
-def app_detail(request,app_id):
+def app_detail(request, app_id):
 
     app = App.objects.get(id = app_id)
     packages = Package.objects.filter(app_id = app_id)
@@ -57,9 +57,10 @@ def app_detail(request,app_id):
     upload_file_form = UploadFileForm()
 
     host = get_host(request)
+    # host = request.get_host()
 
     # return render(request,"Application/app_detail.html",{"host":host,'app':app, "packages":packages,'form':upload_file_form})
-    return render(request,"Application/app_detail2.html",{"host":host,'app':app, "packages":packages,'form':upload_file_form})
+    return render(request, "Application/app_detail2.html", {"host": host, 'app': app, "packages": packages, 'form': upload_file_form})
 
 # #显示全部
 # def package_list(request):
@@ -68,11 +69,11 @@ def app_detail(request,app_id):
 #     return render(request,"Application/package_list.html",{'packs':packs})
 #
 # @login_required
-def app_packages_list(request,app_id):
+def app_packages_list(request, app_id):
     packs = Package.objects.filter(app_id=app_id)
     # print(packs)
     # print type(packs)
-    return render(request,"Application/package_list.html",{'packs':packs})
+    return render(request, "Application/package_list.html", {'packs':packs})
 
 
 def ota_plist(request):
@@ -81,8 +82,9 @@ def ota_plist(request):
     package = Package.objects.get(id=package_id)
 
     host = get_host(request)
-
-    response = render(request,"Application/distribution.plist",{'package':package,"host":host},content_type="text/xml")
+    # host = get_host(request)
+    print(host)
+    response = render(request, "Application/distribution.plist", {'package': package, "host": host}, content_type= "text/xml" )
     return response
 
 # handle file upload
@@ -144,7 +146,7 @@ def package_update(request):
         package = Package(request.POST)
         print(package)
         print("---------------------------------")
-        package.bundle_identifier = request.POST.get("bundle_identifer",None)
+        package.bundle_identifier = request.POST.get("bundle_identifer", None)
         print(package)
         print("package")
         print("package.bundle_identifier")
@@ -153,7 +155,7 @@ def package_update(request):
         form = UpdatePackageForm(request.POST)
 #        pack = Package(form)
 #        print(pack)
-        return render(request,"Application/upload_success.html", context_instance=RequestContext(request))
+        return render(request, "Application/upload_success.html", context_instance=RequestContext(request))
     else:
         return HttpResponse("FAIL")
 

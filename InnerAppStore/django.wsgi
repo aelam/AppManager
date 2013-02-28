@@ -13,7 +13,13 @@ middleware here, or combine a Django application with an application of another
 framework.
 
 """
-import os
+import os, sys
+
+CURRENT_PATH = os.path.dirname(__file__)
+PROJECT_PATH = os.path.dirname(CURRENT_PATH)
+#SETTINGS_PATH = os.path.join(CURRENT_PATH, "InnerAppStore.settings")
+sys.path.append(PROJECT_PATH)
+sys.path.append(CURRENT_PATH)
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "InnerAppStore.settings")
 

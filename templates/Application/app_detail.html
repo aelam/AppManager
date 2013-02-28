@@ -6,9 +6,10 @@
 {% block title %}{{ app.app_name }} {% endblock %}
 
 {% block content %}
-{#    {% block title %}#}
+    {% block header %}
 {#        {{ app.app_name }}#}
-{#    {% endblock %}#}
+{#        <a href="/app" data-icon="gear" class="ui-btn-left"  data-transition="slide" data-direction="reverse">Apps</a>#}
+    {% endblock %}
 
 {#    <div class="congrats">packages for <a href="/app/{{ app.id }}"> {{ app.app_name }}</a></div>#}
 
@@ -39,7 +40,7 @@
                 <li>
 {#                    {% with app.package_set.all|first as pack %}#}
 
-                        <a href="/app/{{ app.id }}">
+                        <a href="{% url main %}{{ app.id }}">
 {#                            <img class="rounded_icon" src="{{ MEDIA_URL }}{{ pack.big_icon_path }}" width="70" height="70" style="margin-top: 10px;margin-left:10px" />#}
                             {% if pack.big_icon_path  %}
                                 <img class="rounded_icon lazy" src="{{ MEDIA_URL }}{{ pack.big_icon_path }}"/>
@@ -48,7 +49,9 @@
                             {% endif %}
                             <h3>{{ pack.bundle_name }}</h3>
                             <p><strong>{{ pack.bundle_version }}</strong> ({{ pack.create_at }})</p>
-                            <a type="button" class="install_button" href="itms-services://?action=download-manifest&url={{host|urlencode:""}}{{"/app/install/?pack_id="|urlencode:""}}{{ pack.id }}">Install</a>
+{#                            <a type="button" class="install_button" href="itms-services://?action=download-manifest&url={{host|urlencode:""}}{% url apps %}}{{"install/?pack_id="|urlencode:""}}{{ pack.id }}">Install</a>#}
+                            {% url app-install as app_install %}
+                            <a type="button" href="itms-services://?action=download-manifest&url={{host|urlencode:""}}{{ app_install|urlencode:"" }}{{"?pack_id="|urlencode:""}}{{ pack.id }}">Install</a>
                         </a>
 {#                    {% endwith %}#}
                 </li>

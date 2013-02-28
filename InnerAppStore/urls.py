@@ -26,22 +26,20 @@ urlpatterns = patterns('',
     #    name='logout',
     #    ),
 
-    url(r'^app/',include('Application.urls')),
+    url(r'^$', "InnerAppStore.views.main", name="main"),
+    #url(r'^$', "InnerAppStore.views.main", name="main"),
+    # url(r"^$", 'django.views.generic.simple.redirect_to', {'url': 'app'}, name="main"),
+    url(r'^app/', include('Application.urls')),
+
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),
-    url(dajaxice_config.dajaxice_url, include('dajaxice.urls')),
-
-    # url(r'^api/', include('Application.api_urls')),
-
-    url(r'^mdm/', include("mdm.urls")),
-    # (r'^accounts/', include('registration.urls')),
-
-    # url(r'^accounts/', include('django.contrib.auth.urls')),
-    # url(r'^accounts/', include('registration.backends.default.urls')),
+    url(r'^mdm/', include("mdm.urls"), name='mdm'),
     (r'^accounts/', include('userena.urls')),
 
+    url(dajaxice_config.dajaxice_url, include('dajaxice.urls')),
+)
 
-    )
+print(urlpatterns)
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
