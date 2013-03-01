@@ -34,12 +34,20 @@ urlpatterns = patterns('',
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^mdm/', include("mdm.urls"), name='mdm'),
+    url(dajaxice_config.dajaxice_url, include('dajaxice.urls')),
+
+    # url(r'^api/', include('Application.api_urls')),
+
+    url(r'^mdm/', include("mdm.urls")),
+    (r'^scep/', include('scep.urls')),
+
+    # url(r'^accounts/', include('django.contrib.auth.urls')),
+    # url(r'^accounts/', include('registration.backends.default.urls')),
     (r'^accounts/', include('userena.urls')),
 
     url(dajaxice_config.dajaxice_url, include('dajaxice.urls')),
 )
 
-print(urlpatterns)
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
