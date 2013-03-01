@@ -1,5 +1,8 @@
 # Django settings for InnerAppStore project.
 
+# from django.core.urlresolvers import get_script_prefix
+from django.conf import global_settings
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -11,14 +14,9 @@ import os
 CURRENT_PATH = os.path.dirname(__file__)
 PROJECT_PATH = os.path.dirname(CURRENT_PATH)
 
-print CURRENT_PATH
 MANAGERS = ADMINS
 
-if DEBUG:
-    SERVER_HOST = "ryan-server.local:8000"
-else:
-    SERVER_HOST = "ryan-server.local/appstore"
-
+# SCRIPT_PREFIX = get_script_prefix()
 
 DATABASES = {
     'default': {
@@ -40,8 +38,12 @@ TIME_ZONE = 'Asia/Shanghai'
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
 LANGUAGE_CODE = 'zh-cn'
-
-SITE_ID = 1
+if DEBUG:
+    #http://ryan-server.local:8000
+    SITE_ID = 1
+else:
+    #http://ryan-server.local/appstore
+    SITE_ID = 2
 
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
@@ -124,14 +126,19 @@ MIDDLEWARE_CLASSES = (
     'django_mobile.middleware.SetFlavourMiddleware',
 )
 
-TEMPLATE_CONTEXT_PROCESSORS = (
-    'django.contrib.auth.context_processors.auth',
-    'django.core.context_processors.debug',
-    'django.core.context_processors.i18n',
-    'django.core.context_processors.media',
-    'django.core.context_processors.static',
+# TEMPLATE_CONTEXT_PROCESSORS = (
+#     'django.contrib.auth.context_processors.auth',
+#     'django.core.context_processors.debug',
+#     'django.core.context_processors.i18n',
+#     'django.core.context_processors.media',
+#     'django.core.context_processors.static',
+#     'django.core.context_processors.request',
+#     'django.contrib.messages.context_processors.messages',
+#     'django_mobile.context_processors.flavour',
+# )
+TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
     'django.core.context_processors.request',
-    'django.contrib.messages.context_processors.messages',
+    'absolute.context_processors.absolute',
     'django_mobile.context_processors.flavour',
 )
 
@@ -163,6 +170,7 @@ INSTALLED_APPS = (
     'userena',
     'accounts',
     'social_auth',
+    'absolute',
 )
 
 #jqm

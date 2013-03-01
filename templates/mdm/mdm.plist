@@ -5,7 +5,7 @@
 	<key>PayloadContent</key>
 	<dict>
 		<key>URL</key>
-		<string>http://ryan-server.local:8000/mdm/checkin</string>
+		<string>{% load absolute %}{% absolute mdm-checkin %}</string>
 		<key>DeviceAttributes</key>
 		<array>
 			<string>UDID</string>

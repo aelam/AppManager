@@ -5,7 +5,11 @@
 {% endblock %}
 
 {% block content %}
-
+            <br/>
+            <br/>
+    <br/>            <br/>            <br/>
+{#    {{ TEST }}#}
+    {{ SCRIPT_PREFIX }}
     {% if flavour != "mobile" %}
 
         <form method="POST" action="{% url main %}upload/" enctype="multipart/form-data" name="form" data-ajax="false"
@@ -27,6 +31,10 @@
 {#        <br/>#}
     {% endif %}
 
+    <br/>
+
+
+    <br/>            <br/>            <br/>
 
 
     <div class="content-primary">
@@ -35,6 +43,7 @@
             {%  for app in apps  %}
                 {% with app.package_set.all|first as pack %}
                     <li>
+                    {{ app.get_absolute_url }}12
                     <a href="{% url apps %}{{ app.id }}"  data-transition="slide">
                         {# TODO Lazy loading image #}
                         {# <img class="rounded_icon lazy" src="{{ STATIC_URL }}Application/img/archive.png" data-original="{{ MEDIA_URL }}{{ pack.big_icon_path }}" a="middle"/>#}
@@ -67,7 +76,7 @@
         </ul>
     </div>
 
-    <a href="https://itunes.apple.com/cn/app/jin-ye-jiu-dian-te-jiapro/id566826099?mt=8&uo=4" target="itunes_store"><img src="http://r.mzstatic.com/images/web/linkmaker/badge_appstore-sm.gif" alt="今夜酒店特价Pro - 天朝开房办" style="border: 0;"/></a>
+{#    <a href="https://itunes.apple.com/cn/app/jin-ye-jiu-dian-te-jiapro/id566826099?mt=8&uo=4" target="itunes_store"><img src="http://r.mzstatic.com/images/web/linkmaker/badge_appstore-sm.gif" alt="今夜酒店特价Pro - 天朝开房办" style="border: 0;"/></a>#}
 
 {% endblock %}
 

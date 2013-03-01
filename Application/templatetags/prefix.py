@@ -1,0 +1,10 @@
+#!/usr/bin/env python
+#coding=utf-8
+
+from django import template
+
+register = template.Library()
+
+@register.tag
+def script_prefix(parser, token ):
+    return "HELLo"

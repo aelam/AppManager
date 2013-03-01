@@ -87,6 +87,11 @@ class Package(models.Model):
     class Meta:
         ordering = ['-create_at', 'bundle_short_version']
 
+
+    def install_link(self):
+        return None
+
+
     def parse_ipa(self):
         if self.ipa_path is None:
             return None

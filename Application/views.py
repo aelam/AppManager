@@ -5,12 +5,13 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
-from models import App,Comment,Package,ProvisioningProfile
+from models import App, Comment, Package, ProvisioningProfile
 from django.shortcuts import render_to_response
 from django.conf import settings
 from django.template import RequestContext
 from django.core.context_processors import csrf
 from django.contrib.auth.decorators import login_required
+from django.core.urlresolvers import reverse, resolve, get_script_prefix
 
 import os.path
 from django import http
@@ -45,8 +46,9 @@ def app_list(request):
 
     host = get_host(request)
     # host = request.get_host()
+    TEST = get_script_prefix()
 
-    return render(request, "Application/app_list.html", {'apps': apps, 'provs': provs, 'host': host, 'form': upload_file_form})
+    return render(request, "Application/app_list.html", {'TEST':TEST, 'apps': apps, 'provs': provs, 'host': host, 'form': upload_file_form}, context_instance=RequestContext(request))
 
 # @login_required
 def app_detail(request, app_id):

@@ -26,6 +26,7 @@ urlpatterns = patterns('',
     #    name='logout',
     #    ),
 
+    # url(r'^(?P<url>.*)$', 'django.contrib.flatpages.sights.flatpage', title='flatpage'),
     url(r'^$', "InnerAppStore.views.main", name="main"),
     #url(r'^$', "InnerAppStore.views.main", name="main"),
     # url(r"^$", 'django.views.generic.simple.redirect_to', {'url': 'app'}, name="main"),
