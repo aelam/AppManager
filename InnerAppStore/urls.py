@@ -34,8 +34,8 @@ urlpatterns = patterns('',
 
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^mdm/', include("mdm.urls"), name='mdm'),
-    url(dajaxice_config.dajaxice_url, include('dajaxice.urls')),
+    # url(r'^mdm/', include("mdm.urls"), name='mdm'),
+    # url(dajaxice_config.dajaxice_url, include('dajaxice.urls')),
 
     # url(r'^api/', include('Application.api_urls')),
 
@@ -44,9 +44,9 @@ urlpatterns = patterns('',
 
     # url(r'^accounts/', include('django.contrib.auth.urls')),
     # url(r'^accounts/', include('registration.backends.default.urls')),
-    (r'^accounts/', include('userena.urls')),
-
-    url(dajaxice_config.dajaxice_url, include('dajaxice.urls')),
+    # (r'^accounts/', include('userena.urls')),
+    #
+    # url(dajaxice_config.dajaxice_url, include('dajaxice.urls')),
 )
 
 

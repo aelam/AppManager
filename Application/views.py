@@ -93,17 +93,17 @@ def ota_plist(request):
 def package_upload(request):
     if request.method == 'GET':
         upload_file_form = UploadFileForm()
-        return render(request,"Application/upload_file.html",{'form':upload_file_form})
+        return render(request, "Application/upload_file.html", {'form': upload_file_form})
     elif request.method == 'POST':
         upload_file_form = UploadFileForm(request.POST, request.FILES)
         print(upload_file_form)
         p = upload_file_form.save(commit=False)
         print(p)
         p.parse_ipa()
-        print("pack:"+ p.bundle_name)
+        print("pack:" + p.bundle_name)
         app = App.objects.get_or_create(app_identifier = p.bundle_identifier)[0]
-        print("r",app.id)
-        print("r",app.app_name)
+        print("r", app.id)
+        print("r", app.app_name)
         print(type(app.app_name))
         if app.app_name is None or len(app.app_name) == 0:
             print("good condition")
@@ -113,9 +113,15 @@ def package_upload(request):
 
         p.save()
 
-        prefix = get_script_prefix();
+        # print "path_info : " + request.path_info
+        # print "get_host : " + request.get_host()
+        # print "get_full_path : " + request.get_full_path()
+        #
+        # prefix = get_script_prefix();
+        # print "prefix: " + prefix;
 
-        redirect = "%s/app/%d" % (prefix, app.id)
+
+        redirect = "http://%s/app/%d" % (request.get_host(), app.id)
         return HttpResponseRedirect(redirect)
 
 # Test JQuery upload file
