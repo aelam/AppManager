@@ -63,6 +63,8 @@ if DEBUG:
 else:
     MEDIA_ROOT = "/Users/ryan/Sites/media"
 
+MEDIA_ROOT = "/Users/ryan/Sites/media"
+
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
 # Examples: "http://media.lawrence.com/media/", "http://example.com/media/"
@@ -78,6 +80,8 @@ if DEBUG:
     STATIC_ROOT = os.path.join(PROJECT_PATH, 'static')
 else:
     STATIC_ROOT = "/Users/ryan/Sites/static"
+
+STATIC_ROOT = "/Users/ryan/Sites/static"
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"

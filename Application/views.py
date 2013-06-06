@@ -112,7 +112,10 @@ def package_upload(request):
         p.app = app
 
         p.save()
-        redirect = "/app/%d" % (app.id)
+
+        prefix = get_script_prefix();
+
+        redirect = "%s/app/%d" % (prefix, app.id)
         return HttpResponseRedirect(redirect)
 
 # Test JQuery upload file
