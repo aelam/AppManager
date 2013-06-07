@@ -48,8 +48,8 @@ def app_list(request):
     # host = request.get_host()
     TEST = get_script_prefix()
 
-    return render(request, "Application/app_list.html", {'TEST':TEST, 'apps': apps, 'provs': provs, 'host': host, 'form': upload_file_form}, context_instance=RequestContext(request))
-
+    return render(request, "Application/app_list.html", {'TEST': TEST, 'apps': apps, 'provs' : provs, 'host' : host, 'form' : upload_file_form}, context_instance=RequestContext(request))
+    # return render(request, "Application/app_list.html", context_instance=RequestContext(request))
 # @login_required
 def app_detail(request, app_id):
 

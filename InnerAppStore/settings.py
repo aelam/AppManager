@@ -63,7 +63,7 @@ if DEBUG:
 else:
     MEDIA_ROOT = "/Users/ryan/Sites/media"
 
-MEDIA_ROOT = "/Users/ryan/Sites/media"
+# MEDIA_ROOT = "/Users/ryan/Sites/media"
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
@@ -81,7 +81,7 @@ if DEBUG:
 else:
     STATIC_ROOT = "/Users/ryan/Sites/static"
 
-STATIC_ROOT = "/Users/ryan/Sites/static"
+# STATIC_ROOT = "/Users/ryan/Sites/static"
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
@@ -103,7 +103,7 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
-    'dajaxice.finders.DajaxiceFinder',
+#     'dajaxice.finders.DajaxiceFinder',
 )
 
 # Make this unique, and don't share it with anybody.
@@ -142,7 +142,7 @@ MIDDLEWARE_CLASSES = (
 # )
 TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
     'django.core.context_processors.request',
-    'absolute.context_processors.absolute',
+    # 'absolute.context_processors.absolute',
     'django_mobile.context_processors.flavour',
 )
 

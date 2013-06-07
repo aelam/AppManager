@@ -38,7 +38,7 @@
 
     <div data-role="header"  data-position="fixed">
 
-        <a href="{% url main %}" data-icon="gear" class="ui-btn-left"  data-transition="slide" data-direction="reverse">Apps</a>
+        <a href="{% url 'main' %}" data-icon="gear" class="ui-btn-left"  data-transition="slide" data-direction="reverse">Apps</a>
         {% if user.is_authenticated %}
 {#            <a href="{% url logout %}" data-icon="gear" class="ui-btn-right"> {{user}}|Logout</a>#}
         {% else %}

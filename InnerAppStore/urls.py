@@ -7,8 +7,8 @@ from django.conf.urls.static import static
 from django.contrib import admin
 admin.autodiscover()
 
-from dajaxice.core import dajaxice_autodiscover, dajaxice_config
-dajaxice_autodiscover()
+# # from dajaxice.core import dajaxice_autodiscover, dajaxice_config
+# dajaxice_autodiscover()
 #
 urlpatterns = patterns('',
     # url(
@@ -32,7 +32,7 @@ urlpatterns = patterns('',
     # url(r"^$", 'django.views.generic.simple.redirect_to', {'url': 'app'}, name="main"),
     url(r'^app/', include('Application.urls')),
 
-    url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
+    # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),
     # url(r'^mdm/', include("mdm.urls"), name='mdm'),
     # url(dajaxice_config.dajaxice_url, include('dajaxice.urls')),
