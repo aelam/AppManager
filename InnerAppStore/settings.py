@@ -170,8 +170,8 @@ INSTALLED_APPS = (
     # 'django_mobile',
     'Application',
     # 'south',
-    'mdm',
-    # 'userena',
+#    'mdm',
+#    'userena',
     # 'accounts',
     # 'social_auth',
     # 'absolute',
@@ -180,22 +180,22 @@ INSTALLED_APPS = (
 #jqm
 LOGIN_REDIRECT_URL = '/appstore'
 
-AUTHENTICATION_BACKENDS = (
-    'userena.backends.UserenaAuthenticationBackend',
-    'guardian.backends.ObjectPermissionBackend',
-    'django.contrib.auth.backends.ModelBackend',
-)
+# AUTHENTICATION_BACKENDS = (
+#     'userena.backends.UserenaAuthenticationBackend',
+#     'guardian.backends.ObjectPermissionBackend',
+#     'django.contrib.auth.backends.ModelBackend',
+# )
 
 EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'
 
 ANONYMOUS_USER_ID = -1
 
-AUTH_PROFILE_MODULE = 'accounts.UserProfile'
+#AUTH_PROFILE_MODULE = 'accounts.UserProfile'
 
-LOGIN_REDIRECT_URL = '/accounts/%(username)s/'
-LOGIN_URL = '/accounts/signin/'
-LOGOUT_URL = '/accounts/signout/'
-
+# LOGIN_REDIRECT_URL = '/accounts/%(username)s/'
+# LOGIN_URL = '/accounts/signin/'
+# LOGOUT_URL = '/accounts/signout/'
+#
 
 TASK_UPLOAD_FILE_TYPES = ['ipa', 'vnd.oasis.opendocument.text',]
 

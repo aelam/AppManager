@@ -3,26 +3,15 @@
 
 from django.http import HttpResponse
 from django.shortcuts import render
-from django.contrib.auth.models import User
-from django.contrib.auth import authenticate
-from models import App, Comment, Package, ProvisioningProfile
-from django.shortcuts import render_to_response
-from django.conf import settings
 from django.template import RequestContext
-from django.core.context_processors import csrf
-from django.contrib.auth.decorators import login_required
-from django.core.urlresolvers import reverse, resolve, get_script_prefix
-
-import os.path
-from django import http
-from django.http import HttpResponseRedirect, HttpResponse
-from forms import PackageForm,AppForm
-
-from forms import *
-import uuid,logging
+from django.core.urlresolvers import get_script_prefix
+from django.http import HttpResponseRedirect
 from django.contrib.sites.models import RequestSite
-from django.utils.http import urlencode
 import biplist
+
+from models import App, Package, ProvisioningProfile
+from forms import *
+
 
 def get_host(request):
     site_name = RequestSite(request).domain
@@ -30,7 +19,6 @@ def get_host(request):
     url_scheme = full_url.split("://")[0]
     print(request.build_absolute_uri())
     host = url_scheme + "://" + site_name
-    # print(request.get_host())
     return host
 
 
@@ -61,8 +49,8 @@ def app_detail(request, app_id):
     host = get_host(request)
     # host = request.get_host()
 
-    # return render(request,"Application/app_detail.html",{"host":host,'app':app, "packages":packages,'form':upload_file_form})
-    return render(request, "Application/app_detail2.html", {"host": host, 'app': app, "packages": packages, 'form': upload_file_form})
+    return render(request,"Application/app_detail.html",{"host":host,'app':app, "packages":packages,'form':upload_file_form})
+    # return render(request, "Application/app_detail2.html", {"host": host, 'app': app, "packages": packages, 'form': upload_file_form})
 
 # #显示全部
 # def package_list(request):
@@ -112,14 +100,6 @@ def package_upload(request):
         p.app = app
 
         p.save()
-
-        # print "path_info : " + request.path_info
-        # print "get_host : " + request.get_host()
-        # print "get_full_path : " + request.get_full_path()
-        #
-        # prefix = get_script_prefix();
-        # print "prefix: " + prefix;
-
 
         redirect = "http://%s/app/%d" % (request.get_host(), app.id)
         return HttpResponseRedirect(redirect)

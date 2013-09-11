@@ -8,4 +8,4 @@ django-html5
 django-jqm
 django-userena
 django-bootstrap
-django-social-auth
+#django-social-auth
