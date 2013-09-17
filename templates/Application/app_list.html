@@ -36,8 +36,8 @@
                     <a href="{% url 'apps' %}{{ app.id }}"  data-transition="slide">
                         {# TODO Lazy loading image #}
                         {# <img class="rounded_icon lazy" src="{{ STATIC_URL }}Application/img/archive.png" data-original="{{ MEDIA_URL }}{{ pack.big_icon_path }}" a="middle"/>#}
-                        {% if pack.big_icon_path  %}
-                            <img class="rounded_icon lazy" src="{{ MEDIA_URL }}{{ pack.big_icon_path }}" a="middle"/>
+                        {% if pack.icon_path  %}
+                            <img class="rounded_icon lazy" src="{{ MEDIA_URL }}{{ pack.icon_path }}" a="middle"/>
                         {% else %}
                             <img class="rounded_icon lazy" src="{{ STATIC_URL }}Application/img/archive.png" a="middle"/>
                         {% endif %}

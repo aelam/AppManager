@@ -143,34 +143,36 @@ def getFiles(base):
     if base == ".":
         return _dirs, _pngs
 
-print "-----------------------------------"
-print " iPhone PNG Images Normalizer v1.0"
-print "-----------------------------------"
-print " "
-print "[+] Searching PNG files...",
-dirs, pngs = getFiles(".")
-print "ok"
 
-if len(pngs) == 0:
+if __name__ == '__main__':
+    print "-----------------------------------"
+    print " iPhone PNG Images Normalizer v1.0"
+    print "-----------------------------------"
     print " "
-    print "[!] Alert: There are no PNG files found. Move this python file to the folder that contains the PNG files to normalize."
-    exit()
-    
-print " "
-print " -  %d PNG files were found at this folder (and subfolders)." % len(pngs)
-print " "
-while True:
-    normalize = raw_input("[?] Do you want to normalize all images (Y/N)? ").lower()
-    if len(normalize) > 0 and (normalize[0] == "y" or normalize[0] == "n"):
-        break
+    print "[+] Searching PNG files...",
+    dirs, pngs = getFiles(".")
+    print "ok"
 
-normalized = 0
-if normalize[0] == "y":
-    for ipng in xrange(len(pngs)):
-        perc = (float(ipng) / len(pngs)) * 100.0
-        print "%.2f%% %s" % (perc, pngs[ipng])
-        if updatePNG(pngs[ipng]):
-            normalized += 1
-print " "
-print "[+] %d PNG files were normalized." % normalized
+    if len(pngs) == 0:
+        print " "
+        print "[!] Alert: There are no PNG files found. Move this python file to the folder that contains the PNG files to normalize."
+        exit()
+
+    print " "
+    print " -  %d PNG files were found at this folder (and subfolders)." % len(pngs)
+    print " "
+    while True:
+        normalize = raw_input("[?] Do you want to normalize all images (Y/N)? ").lower()
+        if len(normalize) > 0 and (normalize[0] == "y" or normalize[0] == "n"):
+            break
+
+    normalized = 0
+    if normalize[0] == "y":
+        for ipng in xrange(len(pngs)):
+            perc = (float(ipng) / len(pngs)) * 100.0
+            print "%.2f%% %s" % (perc, pngs[ipng])
+            if updatePNG(pngs[ipng]):
+                normalized += 1
+    print " "
+    print "[+] %d PNG files were normalized." % normalized
 

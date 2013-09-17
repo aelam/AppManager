@@ -2,13 +2,20 @@
 #coding=utf-8
 #
 
-from django.db import models
-from django.core.files.uploadedfile import TemporaryUploadedFile
 from zipfile import ZipFile
-from InnerAppStore import settings
-import re, os, tempfile, biplist, shutil, uuid, datetime, plistlib
+import re
+import os
+import tempfile
+import shutil
+import uuid
+import plistlib
+
+from django.db import models
+import biplist
 from django.contrib.auth.models import User
 
+from InnerAppStore import settings
+import ipin
 
 PLIST_START_MARKER = '<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">'
 PLIST_END_MARKER = '</plist>'
@@ -98,9 +105,11 @@ class Package(models.Model):
         ipa = ZipFile(self.ipa_path, 'r')
         print ipa
         nameList = ipa.namelist()
+
         # regex for find Info.Plist location and unzip it
         # then we also can find the icons paths
         re_info = re.compile(r"^Payload/[^/]+.app/Info.plist$", re.IGNORECASE)
+
         for name in nameList:
             match = re_info.match(name)
             if match:
@@ -111,7 +120,6 @@ class Package(models.Model):
 
         tempfd = tempfile.gettempdir()
         real_info_path = ipa.extract(info_path, tempfd)
-        print(real_info_path)
         plist = biplist.readPlist(real_info_path)
 
         self.bundle_identifier = plist.get("CFBundleIdentifier", None)
@@ -134,27 +142,32 @@ class Package(models.Model):
             print("icons__.count(0) > 0")
             random_str = str(uuid.uuid4())
             dst_icon_name = random_str + ".png"
-            dst_big_icon_name = random_str + "@2x.png"
+            dst_big_icon_name = random_str + "_2x.png"
             index = 0
 
             for icon_name_ in icons__:
-                icon_path = os.path.join(os.path.dirname(info_path), icon_name_)
-                print("icon_path " + icon_path)
+                icon_path = os.path.dirname(info_path) + "/" + icon_name_
+                print "icon_path" + icon_path
                 dst_icon_dir = os.path.dirname(real_info_path)
                 dst_icon_path = ipa.extract(icon_path, dst_icon_dir)
 
-                dst_dir = os.path.join(settings.MEDIA_ROOT, "apps/icons")
+                dst_dir = os.path.join(settings.MEDIA_ROOT, "apps", "icons")
                 if not os.path.exists(dst_dir):
                     os.makedirs(dst_dir)
                 if index == 0:
                     media_dst_path = os.path.join(dst_dir, dst_icon_name)
+                    print "dst_icon_path : " + dst_icon_path
+                    print "media_dst_path : " + media_dst_path
+                    ipin.updatePNG(dst_icon_path)
                     shutil.copy2(dst_icon_path, media_dst_path)
-                    self.icon_path = os.path.join("apps/icons", dst_icon_name)
+                    self.icon_path = os.path.join("apps", "icons", dst_icon_name)
                 elif index == 1:
                     media_dst_path = os.path.join(dst_dir, dst_big_icon_name)
+                    print "dst_icon_path : " + dst_icon_path
+                    print "media_dst_path : " +media_dst_path
+                    ipin.updatePNG(dst_icon_path)
                     shutil.copy2(dst_icon_path, media_dst_path)
-                    self.big_icon_path = os.path.join("apps/icons", dst_big_icon_name)
-                print(media_dst_path)
+                    self.big_icon_path = os.path.join("apps", "icons", dst_big_icon_name)
                 index = index + 1
 
         ipa.close()

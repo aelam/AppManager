@@ -21,8 +21,8 @@
 
                         <a href="{% url 'main' %}{{ app.id }}">
 {#                            <img class="rounded_icon" src="{{ MEDIA_URL }}{{ pack.big_icon_path }}" width="70" height="70" style="margin-top: 10px;margin-left:10px" />#}
-                            {% if pack.big_icon_path  %}
-                                <img class="rounded_icon lazy" src="{{ MEDIA_URL }}{{ pack.big_icon_path }}"/>
+                            {% if pack.icon_path  %}
+                                <img class="rounded_icon lazy" src="{{ MEDIA_URL }}{{ pack.icon_path }}"/>
                             {% else %}
                                 <img class="rounded_icon lazy" src="{{ STATIC_URL }}Application/img/archive.png" a="middle"/>
                             {% endif %}
