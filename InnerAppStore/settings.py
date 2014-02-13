@@ -164,17 +164,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'django.contrib.admindocs',
-    # 'guardian',
-    # 'jqm',
-    # 'dajaxice',
-    # 'django_mobile',
     'Application',
-    # 'south',
-#    'mdm',
-#    'userena',
-    # 'accounts',
-    # 'social_auth',
-    # 'absolute',
 )
 
 #jqm
