@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-{% load dajaxice_templatetags %}
+{#{% load dajaxice_templatetags %}#}
 {#{% load Application_templatetags  %}#}
 <html>
 <head>
@@ -25,7 +25,7 @@
     <script src="{{STATIC_URL}}Application/js/app.js" type="text/javascript"></script>
     <link rel="stylesheet" href="{{STATIC_URL}}application/css/app.css" />
 
-    {% dajaxice_js_import %}
+{#    {% dajaxice_js_import %}#}
 
     {% block extrahead %}
     {% endblock %}
@@ -38,22 +38,7 @@
 
     <div data-role="header"  data-position="fixed">
 
-        <a href="{% url main %}" data-icon="gear" class="ui-btn-left"  data-transition="slide" data-direction="reverse">Apps</a>
-
-    {{ SCRIPT_PREFIX }}
-{#        <p>    {{ ABSOLUTE_ROOT }} </p>#}
-{#        <p>    {{ ABSOLUTE_ROOT_URL }} </p>#}
-{#        <p>    {{ SITE_ROOT }} </p>#}
-{#        <p>    {{ SITE_ROOT_URL }} </p>#}
-{##}
-{#        <p>  {% url apps %} </p>#}
-{##}
-{#        <p> {% load absolute %} </p>#}
-{#        <p>        {% absolute apps %} </p>#}
-{#        <p>        {% site apps %} </p>#}
-
-        <p>URL of this page: {{ request.get_full_path }}</p>
-        (or {{ request.path }} if you don't need the extra parameters).
+        <a href="{% url 'main' %}" data-icon="gear" class="ui-btn-left"  data-transition="slide" data-direction="reverse">Apps</a>
         {% if user.is_authenticated %}
 {#            <a href="{% url logout %}" data-icon="gear" class="ui-btn-right"> {{user}}|Logout</a>#}
         {% else %}

@@ -63,6 +63,8 @@ if DEBUG:
 else:
     MEDIA_ROOT = "/Users/ryan/Sites/media"
 
+# MEDIA_ROOT = "/Users/ryan/Sites/media"
+
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
 # Examples: "http://media.lawrence.com/media/", "http://example.com/media/"
@@ -78,6 +80,8 @@ if DEBUG:
     STATIC_ROOT = os.path.join(PROJECT_PATH, 'static')
 else:
     STATIC_ROOT = "/Users/ryan/Sites/static"
+
+# STATIC_ROOT = "/Users/ryan/Sites/static"
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
@@ -99,7 +103,7 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
-    'dajaxice.finders.DajaxiceFinder',
+#     'dajaxice.finders.DajaxiceFinder',
 )
 
 # Make this unique, and don't share it with anybody.
@@ -138,7 +142,7 @@ MIDDLEWARE_CLASSES = (
 # )
 TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
     'django.core.context_processors.request',
-    'absolute.context_processors.absolute',
+    # 'absolute.context_processors.absolute',
     'django_mobile.context_processors.flavour',
 )
 
@@ -160,38 +164,28 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'django.contrib.admindocs',
-    'guardian',
-    'jqm',
-    'dajaxice',
-    'django_mobile',
     'Application',
-    # 'south',
-    'mdm',
-    'userena',
-    'accounts',
-    'social_auth',
-    'absolute',
 )
 
 #jqm
 LOGIN_REDIRECT_URL = '/appstore'
 
-AUTHENTICATION_BACKENDS = (
-    'userena.backends.UserenaAuthenticationBackend',
-    'guardian.backends.ObjectPermissionBackend',
-    'django.contrib.auth.backends.ModelBackend',
-)
+# AUTHENTICATION_BACKENDS = (
+#     'userena.backends.UserenaAuthenticationBackend',
+#     'guardian.backends.ObjectPermissionBackend',
+#     'django.contrib.auth.backends.ModelBackend',
+# )
 
 EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'
 
 ANONYMOUS_USER_ID = -1
 
-AUTH_PROFILE_MODULE = 'accounts.UserProfile'
+#AUTH_PROFILE_MODULE = 'accounts.UserProfile'
 
-LOGIN_REDIRECT_URL = '/accounts/%(username)s/'
-LOGIN_URL = '/accounts/signin/'
-LOGOUT_URL = '/accounts/signout/'
-
+# LOGIN_REDIRECT_URL = '/accounts/%(username)s/'
+# LOGIN_URL = '/accounts/signin/'
+# LOGOUT_URL = '/accounts/signout/'
+#
 
 TASK_UPLOAD_FILE_TYPES = ['ipa', 'vnd.oasis.opendocument.text',]
 
