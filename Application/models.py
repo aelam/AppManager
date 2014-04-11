@@ -21,7 +21,6 @@ PLIST_START_MARKER = '<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http
 PLIST_END_MARKER = '</plist>'
 
 
-
 class ProvisioningProfile(models.Model):
     profile_path = models.FileField(upload_to="profiles")
 
@@ -58,6 +57,7 @@ class ProvisioningProfile(models.Model):
         # print(plist_dict)
         print plist_dict["DeveloperCertificates"]
         return plist_dict
+
 
 class App(models.Model):
     app_identifier = models.CharField(max_length=60, unique=True)
@@ -164,7 +164,7 @@ class Package(models.Model):
                 elif index == 1:
                     media_dst_path = os.path.join(dst_dir, dst_big_icon_name)
                     print "dst_icon_path : " + dst_icon_path
-                    print "media_dst_path : " +media_dst_path
+                    print "media_dst_path : " + media_dst_path
                     ipin.updatePNG(dst_icon_path)
                     shutil.copy2(dst_icon_path, media_dst_path)
                     self.big_icon_path = os.path.join("apps", "icons", dst_big_icon_name)
@@ -174,7 +174,7 @@ class Package(models.Model):
 
         return self.bundle_identifier
 
-# Create your models here.
+
 class Comment(models.Model):
     content = models.TextField()
     create_at = models.DateTimeField(auto_now_add=True)
@@ -185,14 +185,17 @@ class Comment(models.Model):
 
 
 class Device(models.Model):
-    device_id = models.CharField(max_length=100,unique=True)
-    nick = models.CharField(max_length=100,blank=True)
+    device_id = models.CharField(max_length=100, unique=True)
+    nick = models.CharField(max_length=100, blank=True)
 
 
 class Team(models.Model):
     team_name = models.CharField(max_length=100)
     team_token = models.CharField(max_length=100)
-    owner = models.ForeignKey(User)
+    owner = models.ForeignKey(User, related_name="owner")
+    members = models.ManyToManyField(User, null=True)
 
+    def __unicode__(self):
+        return self.team_name
 
 
