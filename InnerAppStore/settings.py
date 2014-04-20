@@ -1,3 +1,4 @@
+#coding=utf-8
 # Django settings for InnerAppStore project.
 
 # from django.core.urlresolvers import get_script_prefix
@@ -10,6 +11,10 @@ ADMINS = (
     ('Ryan Wang', 'wanglun02@gmail.com'),
 )
 
+#SESSION_COOKIE_SECURE = True
+#CSRF_COOKIE_SECURE = True
+
+
 import os
 CURRENT_PATH = os.path.dirname(__file__)
 PROJECT_PATH = os.path.dirname(CURRENT_PATH)
@@ -18,16 +23,29 @@ MANAGERS = ADMINS
 
 # SCRIPT_PREFIX = get_script_prefix()
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME':  os.path.join(PROJECT_PATH, 'Content.db'),                      # Or path to database file if using sqlite3.
-        'USER': '',                      # Not used with sqlite3.
-        'PASSWORD': '',                  # Not used with sqlite3.
-        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
+if False:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+            'NAME':  os.path.join(PROJECT_PATH, 'Content.db'),                      # Or path to database file if using sqlite3.
+            'USER': '',                      # Not used with sqlite3.
+            'PASSWORD': '',                  # Not used with sqlite3.
+            'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
+            'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
+        }
     }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+            'NAME':  '/Library/Server/AppManager/db/Content.db',
+            'USER': '',                      # Not used with sqlite3.
+            'PASSWORD': '',                  # Not used with sqlite3.
+            'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
+            'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
+            }
 }
+
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -58,10 +76,10 @@ USE_TZ = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
-if DEBUG:
+if False:
     MEDIA_ROOT = os.path.join(PROJECT_PATH, 'media')
 else:
-    MEDIA_ROOT = "/Users/ryan/Sites/media"
+    MEDIA_ROOT = "/Library/Server/AppManager/media"
 
 # MEDIA_ROOT = "/Users/ryan/Sites/media"
 
@@ -71,15 +89,14 @@ else:
 MEDIA_URL = '/media/'
 
 
-
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/home/media/media.lawrence.com/static/"
-if DEBUG:
+if False:
     STATIC_ROOT = os.path.join(PROJECT_PATH, 'static')
 else:
-    STATIC_ROOT = "/Users/ryan/Sites/static"
+    STATIC_ROOT = "/Library/Server/AppManager/static"
 
 # STATIC_ROOT = "/Users/ryan/Sites/static"
 
@@ -102,8 +119,6 @@ STATICFILES_DIRS = (
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-#    'django.contrib.staticfiles.finders.DefaultStorageFinder',
-#     'dajaxice.finders.DajaxiceFinder',
 )
 
 # Make this unique, and don't share it with anybody.
@@ -130,20 +145,13 @@ MIDDLEWARE_CLASSES = (
     'django_mobile.middleware.SetFlavourMiddleware',
 )
 
-# TEMPLATE_CONTEXT_PROCESSORS = (
-#     'django.contrib.auth.context_processors.auth',
-#     'django.core.context_processors.debug',
-#     'django.core.context_processors.i18n',
-#     'django.core.context_processors.media',
-#     'django.core.context_processors.static',
-#     'django.core.context_processors.request',
-#     'django.contrib.messages.context_processors.messages',
-#     'django_mobile.context_processors.flavour',
-# )
-TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
+
+from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as TCP
+
+TEMPLATE_CONTEXT_PROCESSORS = TCP + global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
     'django.core.context_processors.request',
-    # 'absolute.context_processors.absolute',
     'django_mobile.context_processors.flavour',
+    'InnerAppStore.context_processors.base_url',
 )
 
 ROOT_URLCONF = 'InnerAppStore.urls'
@@ -152,7 +160,7 @@ ROOT_URLCONF = 'InnerAppStore.urls'
 WSGI_APPLICATION = 'InnerAppStore.wsgi.application'
 
 TEMPLATE_DIRS = (
-    os.path.join(PROJECT_PATH,'templates').replace('\\','/'),
+    os.path.join(PROJECT_PATH,'templates').replace('\\', "/"),
 )
 
 INSTALLED_APPS = (
@@ -165,6 +173,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.admindocs',
     'Application',
+    'south',
 )
 
 #jqm
@@ -176,7 +185,6 @@ LOGIN_REDIRECT_URL = '/appstore'
 #     'django.contrib.auth.backends.ModelBackend',
 # )
 
-EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'
 
 ANONYMOUS_USER_ID = -1
 
@@ -187,7 +195,17 @@ ANONYMOUS_USER_ID = -1
 # LOGOUT_URL = '/accounts/signout/'
 #
 
-TASK_UPLOAD_FILE_TYPES = ['ipa', 'vnd.oasis.opendocument.text',]
+TASK_UPLOAD_FILE_TYPES = ['ipa', "vnd.oasis.opendocument.text", ]
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'wanglun0@gmail.com'
+EMAIL_HOST_PASSWORD = 'since2012'
+SERVER_EMAIL = 'ryan.wang@tappal.com'
 
 
 # A sample logging configuration. The only tangible logging

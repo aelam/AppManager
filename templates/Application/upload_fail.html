@@ -3,7 +3,7 @@
 {% block content %}
     Upload Success!
     ipa path : {{ ipa_path }}
-    {#    <form method="POST" action="/app/upload/" enctype="multipart/form-data" name="form">  {% csrf_token %}#}
+    {#    <form method="POST" action="{% url 'package_upload' %}" enctype="multipart/form-data" name="form">  {% csrf_token %}#}
     {#        Select a file: <input type="file" name="filename" /><br>#}
     {#        <input type="submit" value="Upload">#}
     {#    </form>#}

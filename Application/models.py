@@ -9,6 +9,7 @@ import tempfile
 import shutil
 import uuid
 import plistlib
+import string
 
 from django.db import models
 import biplist
@@ -77,6 +78,7 @@ class Package(models.Model):
     bundle_identifier = models.CharField(max_length=60, blank=True, null=True)
 
     bundle_name = models.CharField(max_length=100, blank=True, null=True)
+    display_name = models.CharField(max_length=100, blank=True, null=True)
     bundle_version = models.CharField(max_length=100, blank=True, null=True)
     bundle_short_version = models.CharField(max_length=100, blank=True, null=True)
 
@@ -94,11 +96,11 @@ class Package(models.Model):
     class Meta:
         ordering = ['-create_at', 'bundle_short_version']
 
-
     def install_link(self):
         return None
 
-
+    #TODO find icons
+    @property
     def parse_ipa(self):
         if self.ipa_path is None:
             return None
@@ -126,12 +128,13 @@ class Package(models.Model):
         self.bundle_name = plist.get(r'CFBundleName', None)
         self.bundle_version = plist.get(r'CFBundleVersion', None)
         self.bundle_short_version = plist.get(r'CFBundleVersion', None)
+        self.display_name = plist.get(r"CFBundleDisplayName", None)
 
         icons = plist.get(r'CFBundleIcons', None)
         icons__ = []
         if icons:
-            primaryIcon = icons.get(r"CFBundlePrimaryIcon", None)
-            icons__ = primaryIcon.get(r"CFBundleIconFiles", None)
+            primary_icon = icons.get(r"CFBundlePrimaryIcon", None)
+            icons__ = primary_icon.get(r"CFBundleIconFiles", None)
         else:
             icons = plist.get(r"CFBundleIconFiles", None)
             if icons:
@@ -146,10 +149,21 @@ class Package(models.Model):
             index = 0
 
             for icon_name_ in icons__:
-                icon_path = os.path.dirname(info_path) + "/" + icon_name_
+                if index > 2:
+                    break
+                icon_name_ = string.replace(icon_name_, ".png", "")
+                icon_name_ += "@2x.png"
+                icon_path = os.path.join(os.path.dirname(info_path), icon_name_)
                 print "icon_path" + icon_path
                 dst_icon_dir = os.path.dirname(real_info_path)
-                dst_icon_path = ipa.extract(icon_path, dst_icon_dir)
+                try:
+                    dst_icon_path = ipa.extract(icon_path, dst_icon_dir)
+                except KeyError:
+                    print "KeyError"
+                    continue
+
+                if len(dst_icon_path) == 0:
+                    return
 
                 dst_dir = os.path.join(settings.MEDIA_ROOT, "apps", "icons")
                 if not os.path.exists(dst_dir):
@@ -161,6 +175,7 @@ class Package(models.Model):
                     ipin.updatePNG(dst_icon_path)
                     shutil.copy2(dst_icon_path, media_dst_path)
                     self.icon_path = os.path.join("apps", "icons", dst_icon_name)
+                    index += 1
                 elif index == 1:
                     media_dst_path = os.path.join(dst_dir, dst_big_icon_name)
                     print "dst_icon_path : " + dst_icon_path
@@ -168,7 +183,7 @@ class Package(models.Model):
                     ipin.updatePNG(dst_icon_path)
                     shutil.copy2(dst_icon_path, media_dst_path)
                     self.big_icon_path = os.path.join("apps", "icons", dst_big_icon_name)
-                index = index + 1
+
 
         ipa.close()
 

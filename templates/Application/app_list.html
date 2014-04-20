@@ -3,12 +3,16 @@
 {% block extrahead %}
 
 {% endblock %}
+        {% block header %}
+            <h3>Apps</h3>
+        {% endblock %}
+
 
 {% block content %}
 
-    {% if flavour != "mobile" %}
 
-        <form method="POST" action="{% url 'apps' %}upload/" enctype="multipart/form-data" name="form" data-ajax="false"
+    {% if flavour != "mobile" and user.is_authenticated %}
+        <form method="POST" action="{% url 'package_upload' %}" enctype="multipart/form-data" name="form" data-ajax="false"
               xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html"
               xmlns="http://www.w3.org/1999/html">  {% csrf_token %}
          <ul data-role="listview" data-split-icon="plus" data-theme="a">
@@ -23,49 +27,59 @@
          <p><input type="submit" value="上传" /></p>
            </ul>
         </form>
-{#        <br/>#}
-{#        <br/>#}
     {% endif %}
 
-    <div class="content-primary">
-        <ul data-role="listview" data-split-icon="plus" data-theme="c">
-            <li data-role="list-divider">Apps</li>
-            {%  for app in apps  %}
-                {% with app.package_set.all|first as pack %}
-                    <li>
-                    <a href="{% url 'apps' %}{{ app.id }}"  data-transition="slide">
-                        {# TODO Lazy loading image #}
-                        {# <img class="rounded_icon lazy" src="{{ STATIC_URL }}Application/img/archive.png" data-original="{{ MEDIA_URL }}{{ pack.big_icon_path }}" a="middle"/>#}
-                        {% if pack.icon_path  %}
-                            <img class="rounded_icon lazy" src="{{ MEDIA_URL }}{{ pack.icon_path }}" a="middle"/>
-                        {% else %}
-                            <img class="rounded_icon lazy" src="{{ STATIC_URL }}Application/img/archive.png" a="middle"/>
-                        {% endif %}
-                        <h3>{{ pack.bundle_name }}</h3>
-                        <p><strong>{{ pack.bundle_short_version }}</strong></p>
-                        <p>Build Version <strong>{{ pack.bundle_version }}</strong> ({{ pack.create_at }})</p>
-                        {% url 'app_install' as app_install %}
-                        <a type="button" href="itms-services://?action=download-manifest&url={{host|urlencode:""}}{{ app_install|urlencode:"" }}{{"?pack_id="|urlencode:""}}{{ pack.id }}">Install</a>
-                    </a>
-                    {% endwith %}
-                </li>
+ <div class="content-primary">
+{#        <ul data-role="listview" data-split-icon="plus" data-theme="c">#}
+     <ul data-role="listview" data-split-icon="arrow-d"  >
+        <li data-role="list-divider">Apps</li>
+        {%  for app in apps  %}
+            {% with app.package_set.all|first as pack %}
+                <li>
+                <a href="{% url 'app_detail' app.id %}"  data-transition="slide">
+                    {% if pack.icon_path  %}
+                        <img class="rounded_icon" src="{{ MEDIA_URL }}{{ pack.icon_path }}" a="middle"/>
+                    {% else %}
+                        <img class="rounded_icon" src="{{ STATIC_URL }}Application/img/archive.png" a="middle"/>
+                    {% endif %}
 
-            {% endfor %}
+                    <h3 class="alert-danger">{{ pack.display_name }}</h3>
+                    <p><strong>{{ pack.bundle_short_version }}({{ pack.bundle_version }})</strong></p>
+                    <p>({{ pack.create_at }})</p>
+                    {% url 'app_install' as app_install %}
+                    <a type="button" data-role="none" href="itms-services://?action=download-manifest&url={{BASE_URL|urlencode:""}}{{ app_install|urlencode:"" }}{{"?pack_id="|urlencode:""}}{{ pack.id }}">Install</a>
+                </a>
+                {% endwith %}
+            </li>
+        {% endfor %}
+
+        <li data-role="list-divider">Provisioning Profiles</li>
+        {%  for prov in provs  %}
+            <li style="height:80;">
+                <img class="rounded_icon" src="{{ STATIC_URL }}Application/img/prov.png">
+                <a href="{{ MEDIA_URL }}{{ prov.profile_path }}" data-ajax="false">Install Provisioning Profile </a>
+            </li>
+        {% endfor %}
+
+        <li data-role="list-divider">SSL cert</li>
+            <li style="height:80;">
+                <a href="#"  data-transition="slide">
+                <img class="rounded_icon" src="{{ STATIC_URL }}Application/img/prov.png" a="middle">
+                <h3>Install CA cert </h3>
+                <p><strong>首次使用需要安装CA证书</strong></p>
+                <a type="button" href="{{ STATIC_URL }}public/CA.cer" data-ajax="false"></a>
+            </li>
+
+{#             <li style="height:80;">#}
+{#                <a href="#"  data-transition="slide">#}
+{#                <img class="rounded_icon" src="{{ STATIC_URL }}Application/img/prov.png">#}
+{#                <h3>Install cert </h3>#}
+{#                <a type="button" href="{{ STATIC_URL }}public/cert.cer" data-ajax="false">Install cert </a>#}
+{#            </li>#}
 
 
-            <li data-role="list-divider">Provisioning Profiles</li>
-            {%  for prov in provs  %}
-                <li style="height:80;">
-                    <img class="rounded_icon" src="{{ STATIC_URL }}Application/img/prov.png">
-                    <a href="{% url 'main' %}/app"  data-transition="slide" ></a>
-                    <a href="{{ MEDIA_URL }}{{ prov.profile_path }}" data-ajax="false">Install Provisioning Profile </a>
-                </li>
-            {% endfor %}
 
-        </ul>
-    </div>
-
-{#    <a href="https://itunes.apple.com/cn/app/jin-ye-jiu-dian-te-jiapro/id566826099?mt=8&uo=4" target="itunes_store"><img src="http://r.mzstatic.com/images/web/linkmaker/badge_appstore-sm.gif" alt="今夜酒店特价Pro - 天朝开房办" style="border: 0;"/></a>#}
+    </ul>
+</div>
 
 {% endblock %}
-

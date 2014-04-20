@@ -7,6 +7,9 @@ from django.template import RequestContext
 from django.core.urlresolvers import get_script_prefix
 from django.http import HttpResponseRedirect
 from django.contrib.sites.models import RequestSite
+from django.shortcuts import redirect
+from mail import send_mail_with_new_pack
+
 import biplist
 
 from models import App, Package, ProvisioningProfile
@@ -28,42 +31,39 @@ def appstore(request):
 
 # @login_required
 def app_list(request):
+    #return render(request, "Application/appstore.html")
     apps = App.objects.all()
     provs = ProvisioningProfile.objects.all()
     upload_file_form = UploadFileForm()
 
     host = get_host(request)
     # host = request.get_host()
-    TEST = get_script_prefix()
 
-    return render(request, "Application/app_list.html", {'TEST': TEST, 'apps': apps, 'provs' : provs, 'host' : host, 'form' : upload_file_form}, context_instance=RequestContext(request))
+    return render(request, "Application/app_list.html",
+                  {'apps': apps, 'provs': provs, 'host': host, 'form': upload_file_form},
+                  context_instance=RequestContext(request))
     # return render(request, "Application/app_list.html", context_instance=RequestContext(request))
+
+
 # @login_required
 def app_detail(request, app_id):
-
-    app = App.objects.get(id = app_id)
-    packages = Package.objects.filter(app_id = app_id)
+    app = App.objects.get(id=app_id)
+    packages = Package.objects.filter(app_id=app_id)
 
     upload_file_form = UploadFileForm()
 
     host = get_host(request)
     # host = request.get_host()
 
-    return render(request,"Application/app_detail.html",{"host":host,'app':app, "packages":packages,'form':upload_file_form})
-    # return render(request, "Application/app_detail2.html", {"host": host, 'app': app, "packages": packages, 'form': upload_file_form})
+    return render(request, "Application/app_detail.html",
+                  {'app': app, "packages": packages, 'form': upload_file_form})
 
-# #显示全部
-# def package_list(request):
-#     print request.GET
-#     packs = Package.objects.all() #(app_id=app_id)
-#     return render(request,"Application/package_list.html",{'packs':packs})
-#
-# @login_required
+
 def app_packages_list(request, app_id):
     packs = Package.objects.filter(app_id=app_id)
     # print(packs)
     # print type(packs)
-    return render(request, "Application/package_list.html", {'packs':packs})
+    return render(request, "Application/package_list.html", {'packs': packs})
 
 
 def ota_plist(request):
@@ -74,8 +74,10 @@ def ota_plist(request):
     host = get_host(request)
     # host = get_host(request)
     print(host)
-    response = render(request, "Application/distribution.plist", {'package': package, "host": host}, content_type= "text/xml" )
+    response = render(request, "Application/distribution.plist", {'package': package, "host": host},
+                      content_type="text/xml")
     return response
+
 
 # handle file upload
 def package_upload(request):
@@ -87,9 +89,9 @@ def package_upload(request):
         print(upload_file_form)
         p = upload_file_form.save(commit=False)
         print(p)
-        p.parse_ipa()
+        p.parse_ipa
         print("pack:" + p.bundle_name)
-        app = App.objects.get_or_create(app_identifier = p.bundle_identifier)[0]
+        app = App.objects.get_or_create(app_identifier=p.bundle_identifier)[0]
         print("r", app.id)
         print("r", app.app_name)
         print(type(app.app_name))
@@ -98,39 +100,17 @@ def package_upload(request):
             app.app_name = p.bundle_name
         app.save()
         p.app = app
-
         p.save()
+        return redirect("app_detail", app.id)
 
-        redirect = "http://%s/app/%d" % (request.get_host(), app.id)
-        return HttpResponseRedirect(redirect)
 
 # Test JQuery upload file
 def pack_upload2(request):
-    if  request.method == "GET":
-    # upload_file_form = UploadFileForm()
-        return render(request,"Application/picture_form.html")
+    if request.method == "GET":
+        return render(request, "Application/picture_form.html")
     elif request.method == 'POST':
-    # print(request)
-
-    # upload_file_form = UploadFileForm(request.POST, request.FILES)
-    #
-    # p = upload_file_form.save(commit=False)
-    # p.parse_ipa()
-    # print("pack:"+ p.bundle_name)
-    # app = App.objects.get_or_create(app_identifier = p.bundle_identifier)[0]
-    # print("r",app.id)
-    # print("r",app.app_name)
-    # print(type(app.app_name))
-    # if app.app_name is None or len(app.app_name) == 0:
-    #     print("good condition")
-    #     app.app_name = p.bundle_name
-    # app.save()
-    # p.app = app
-    #
-    # p.save()
-    # redirect = "/app/%d" % (app.id)
-    # return HttpResponseRedirect(redirect)
         return HttpResponse("Good")
+
 
 def package_update(request):
     if request.method == 'POST':
@@ -144,12 +124,9 @@ def package_update(request):
         print(package.bundle_identifier)
         print(package.id)
         form = UpdatePackageForm(request.POST)
-#        pack = Package(form)
-#        print(pack)
         return render(request, "Application/upload_success.html", context_instance=RequestContext(request))
     else:
         return HttpResponse("FAIL")
-
 
 
 def provisioning_profile_list(request):
@@ -157,6 +134,5 @@ def provisioning_profile_list(request):
     print(provs)
     plist = biplist.readPlist(provs.profile_path)
     print(plist)
-
 
     return HttpResponse("provisioning_profile_list")

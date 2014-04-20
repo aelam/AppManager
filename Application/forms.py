@@ -22,6 +22,7 @@ class UploadFileForm(ModelForm):
                    "bundle_short_version",
                    "icon_path",
                    "provision",
+                   'display_name',
         )
 
 

@@ -3,17 +3,11 @@
 
 __author__ = 'ryan'
 
-from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
-from django.core.urlresolvers import resolve
+
+from django.shortcuts import redirect
+from django.http import HttpResponse
+
 
 def main(request):
-    # print resolve("app")
-    redirect = request.path + "app"
-#    str = "{{MEDIA_URL}} {{STATIC_URL}} {{SCRIPT_URL}}"
-
-    # return HttpResponse(str)
-    # return render()
-    # return render(request, "Application/Test.html")
-    return HttpResponseRedirect(redirect)
-
+    # return HttpResponse("HELLO")
+    return redirect("app_root")
