@@ -88,7 +88,10 @@ def package_upload(request):
         return render(request, "Application/upload_file.html", {'form': upload_file_form})
     elif request.method == 'POST':
         upload_file_form = UploadFileForm(request.POST, request.FILES)
-        print(upload_file_form)
+        if not upload_file_form.is_valid():
+            return HttpResponseServerError("Invalid call")
+
+        print(upload_file_form.Meta)
         p = upload_file_form.save(commit=False)
         print(p)
         p.parse_ipa
@@ -104,6 +107,12 @@ def package_upload(request):
         p.app = app
         p.save()
         return redirect("app_detail", app.id)
+        # app = App.objects.get(id=app_id)
+        # packages = Package.objects.filter(app_id=app_id)
+        #
+        # upload_file_form = UploadFileForm()
+        # return render(request, "Application/app_detail.html",
+        #               {'app': app, "packages": packages, 'form': upload_file_form})
 
 
 # Test JQuery upload file
