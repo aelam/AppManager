@@ -9,6 +9,7 @@ from django.http import HttpResponseRedirect
 from django.contrib.sites.models import RequestSite
 from django.shortcuts import redirect
 from mail import send_mail_with_new_pack
+from django.views.decorators.csrf import csrf_exempt
 
 import biplist
 
@@ -80,6 +81,7 @@ def ota_plist(request):
 
 
 # handle file upload
+@csrf_exempt
 def package_upload(request):
     if request.method == 'GET':
         upload_file_form = UploadFileForm()

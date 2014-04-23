@@ -26,7 +26,7 @@
 {#                <a href="{% url 'app_detail' app.id %}"  data-transition="slide">#}
                 <a href="#"  data-transition="slide">
                     {% if pack.icon_path  %}
-                        <img class="rounded_icon" src="{{ MEDIA_URL }}{{ pack.icon_path }}" a="middle"/>
+                        <img class="rounded_icon" src="{{ MEDIA_URL }}{{ pack.big_icon_path }}" a="middle"/>
                     {% else %}
                         <img class="rounded_icon" src="{{ STATIC_URL }}Application/img/archive.png" a="middle"/>
                     {% endif %}

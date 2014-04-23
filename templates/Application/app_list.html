@@ -14,7 +14,8 @@
     {% if flavour != "mobile" and user.is_authenticated %}
         <form method="POST" action="{% url 'package_upload' %}" enctype="multipart/form-data" name="form" data-ajax="false"
               xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html"
-              xmlns="http://www.w3.org/1999/html">  {% csrf_token %}
+              xmlns="http://www.w3.org/1999/html">
+{#            {% csrf_token %}#}
          <ul data-role="listview" data-split-icon="plus" data-theme="a">
              <li>
              <p><strong>上传IPA</strong></p>
@@ -38,7 +39,7 @@
                 <li>
                 <a href="{% url 'app_detail' app.id %}"  data-transition="slide">
                     {% if pack.icon_path  %}
-                        <img class="rounded_icon" src="{{ MEDIA_URL }}{{ pack.icon_path }}" a="middle"/>
+                        <img class="rounded_icon" src="{{ MEDIA_URL }}{{ pack.big_icon_path }}" a="middle"/>
                     {% else %}
                         <img class="rounded_icon" src="{{ STATIC_URL }}Application/img/archive.png" a="middle"/>
                     {% endif %}
@@ -54,10 +55,19 @@
         {% endfor %}
 
         <li data-role="list-divider">Provisioning Profiles</li>
+            <li>
+                <a href="#"  data-transition="slide">
+                <img class="rounded_icon" src="{{ STATIC_URL }}Application/img/prov.png">
+                <p><strong>首次使用需要安装描述文件</strong></p>
+                <p><strong>com.tappal.eggorder</strong></p>
+                <a href="{{ STATIC_URL }}public/adhoc_eggorder.mobileprovision" data-ajax="false">Install Provisioning Profile </a>
+            </li>
+
         {%  for prov in provs  %}
             <li style="height:80;">
                 <img class="rounded_icon" src="{{ STATIC_URL }}Application/img/prov.png">
                 <a href="{{ MEDIA_URL }}{{ prov.profile_path }}" data-ajax="false">Install Provisioning Profile </a>
+
             </li>
         {% endfor %}
 
@@ -69,16 +79,6 @@
                 <p><strong>首次使用需要安装CA证书</strong></p>
                 <a type="button" href="{{ STATIC_URL }}public/CA.cer" data-ajax="false"></a>
             </li>
-
-{#             <li style="height:80;">#}
-{#                <a href="#"  data-transition="slide">#}
-{#                <img class="rounded_icon" src="{{ STATIC_URL }}Application/img/prov.png">#}
-{#                <h3>Install cert </h3>#}
-{#                <a type="button" href="{{ STATIC_URL }}public/cert.cer" data-ajax="false">Install cert </a>#}
-{#            </li>#}
-
-
-
     </ul>
 </div>
 

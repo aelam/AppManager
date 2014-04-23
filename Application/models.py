@@ -88,10 +88,10 @@ class Package(models.Model):
     release_note = models.TextField(null=True, blank=True)
 
     #TODO
-    provision = models.ForeignKey(ProvisioningProfile, null=True)
+    provision = models.ForeignKey(ProvisioningProfile, null=True, blank=True)
 
     def __unicode__(self):
-        return "%s-%s " % (self.bundle_identifier, self.bundle_version)
+        return "%s-%s" % (self.bundle_version, self.create_at)
 
     class Meta:
         ordering = ['-create_at', 'bundle_short_version']
